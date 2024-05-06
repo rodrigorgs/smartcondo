@@ -30,7 +30,7 @@
     "@nestjs/mongoose": "^9.1.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
-    "ewelink-api": "^3.1.1",
+    "ewelink-api-next": "^1.0.4",
     "mongoose": "^6.3.6",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

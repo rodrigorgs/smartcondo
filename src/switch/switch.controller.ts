@@ -13,7 +13,7 @@ export class SwitchController {
     return this.ewelink.getDevices();
   }
 
-  @Get('portao.html')
+  @Get('portao')
   @Render('switches/show')
   async showPortao(@Query('key') key: string) {
     return { message: 'Hello world', key: key, address: this.configService.get<string>('ADDRESS') };

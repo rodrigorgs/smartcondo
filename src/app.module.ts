@@ -8,6 +8,7 @@ import { SwitchController } from './switch/switch.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 const databaseUrl =
   process.env.DATABASE_URL || 'postgres://postgres:123456@localhost:5432/smartcondo';
@@ -25,6 +26,7 @@ const databaseUrl =
       synchronize: true,
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [SwitchController],
   providers: [EwelinkService],

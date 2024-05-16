@@ -7,10 +7,8 @@ export class CreateUserDto {
 
   @IsString()
   @MinLength(2, { message: 'Name must have at least 2 characters.' })
-  @IsNotEmpty()
-  name: string;
+  name?: string;
 
-  @IsNotEmpty()
   @MinLength(8, { message: 'Username must have at least 8 characters.' })
-  password: string;
+  password?: string;
 }

@@ -32,6 +32,8 @@ export class AuthService {
     const jwtPayload = this.generateJwt({
       sub: dbUser.id,
       email: dbUser.email,
+      name: dbUser.name,
+      teste: 'qweqwe'
     });
 
     return jwtPayload;

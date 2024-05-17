@@ -1,5 +1,6 @@
+import { AccessKey } from "src/access-keys/entities/access-key.entity";
 import { CondoToUser } from "src/condos/entities/condo-to-user.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()
 @Unique(['email'])
@@ -21,6 +22,9 @@ export class User {
 
   @ManyToOne(() => CondoToUser, (condoToUser) => condoToUser.user)
   condoToUsers: CondoToUser[];
+
+  @OneToMany(() => AccessKey, (accessKey) => accessKey.user)
+  accessKeys: AccessKey[];
 
   @CreateDateColumn()
   createdAt: Date;

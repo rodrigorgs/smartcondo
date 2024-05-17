@@ -1,6 +1,7 @@
 import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CondoToUser } from "./condo-to-user.entity";
 import { Device } from "src/devices/entities/device.entity";
+import { AccessKey } from "src/access-keys/entities/access-key.entity";
 
 @Entity()
 export class Condo {
@@ -22,4 +23,7 @@ export class Condo {
 
   @OneToMany(() => Device, (device) => device.condo)
   devices: Device[];
+
+  @OneToMany(() => AccessKey, (accessKey) => accessKey.condo)
+  accessKeys: AccessKey[];
 }

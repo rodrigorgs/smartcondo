@@ -11,6 +11,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "pg-start": "docker run -d -p 5432:5432 --name pg-dev -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=smartcondo postgres",
     "pg-stop": "docker rm -f pg-dev",
+    "pg-cli": "PGPASSWORD=123456 psql -h localhost -U postgres -d smartcondo",
     "start": "node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

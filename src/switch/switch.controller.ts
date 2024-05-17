@@ -8,7 +8,7 @@ export class SwitchController {
   constructor(private ewelink: EwelinkService,
       private configService: ConfigService) { }
 
-  @Get('devices')
+  @Get('list-devices')
   async getDevices() {
     return this.ewelink.getDevices();
   }

@@ -6,10 +6,14 @@ import { ConfigModule } from '@nestjs/config';
 import { EwelinkService } from './ewelink/ewelink.service';
 import { SwitchController } from './switch/switch.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { User } from './user/entities/user.entity';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
-import { CondoModule } from './condo/condo.module';
+import { CondosModule } from './condos/condos.module';
+import { Condo } from './condos/entities/condo.entity';
+import { CondoToUser } from './condos/entities/condo-to-user.entity';
+import { DevicesModule } from './devices/devices.module';
+import { Device } from './devices/entities/device.entity';
 
 const databaseUrl =
   process.env.DATABASE_URL || 'postgres://postgres:123456@localhost:5432/smartcondo';
@@ -23,12 +27,13 @@ const databaseUrl =
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: databaseUrl,
-      entities: [User],
+      entities: [User, Condo, User, CondoToUser, Device],
       synchronize: true,
     }),
-    UserModule,
+    UsersModule,
     AuthModule,
-    CondoModule,
+    CondosModule,
+    DevicesModule,
   ],
   controllers: [SwitchController],
   providers: [EwelinkService],

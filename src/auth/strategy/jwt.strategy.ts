@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UserService } from 'src/user/user.service';
+import { UsersService } from 'src/users/users.service';
 
 export type JwtPayload = {
   sub: string;
@@ -15,7 +15,7 @@ export type JwtPayload = {
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     configService: ConfigService,
-    private userService: UserService,
+    private userService: UsersService,
   ) {
     const extractJwtFromCookie = (req: Request) => {
       let token = null;

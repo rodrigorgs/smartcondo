@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { CondoToUser } from "src/condos/entities/condo-to-user.entity";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()
 @Unique(['email'])
@@ -17,6 +18,9 @@ export class User {
 
   @Column({ type: 'text' })
   picture?: string;
+
+  @ManyToOne(() => CondoToUser, (condoToUser) => condoToUser.user)
+  condoToUsers: CondoToUser[];
 
   @CreateDateColumn()
   createdAt: Date;

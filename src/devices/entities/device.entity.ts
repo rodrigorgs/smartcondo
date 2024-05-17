@@ -1,7 +1,9 @@
 import { Condo } from "src/condos/entities/condo.entity";
-import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
+@Unique(['identifier', 'condo'])
+@Unique(['slug', 'condo'])
 export class Device {
   @PrimaryGeneratedColumn()
   id: number;

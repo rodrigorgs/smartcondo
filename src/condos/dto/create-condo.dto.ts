@@ -1,1 +1,5 @@
-export class CreateCondoDto {}
+export class CreateCondoDto {
+  name: string;
+  address: string;
+  slug: string;
+}

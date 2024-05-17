@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CondosService } from './condos.service';
 import { CreateCondoDto } from './dto/create-condo.dto';
-import { UpdateCondoDto } from './dto/update-condo.dto';
 
 @Controller('condos')
 export class CondosController {
@@ -22,13 +21,29 @@ export class CondosController {
     return this.condosService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCondoDto: UpdateCondoDto) {
-    return this.condosService.update(+id, updateCondoDto);
+  @Post(':condoId/users/:userId')
+  addUser(@Param('condoId') condoId: string, @Param('userId') userId: string, @Body() body: AddUserToCondoDto) {
+    return this.condosService.addOrUpdateUser(+condoId, +userId, body);
+  }
+  
+  @Get(':condoId/users/:userId')
+  findCondoToUser(@Param('condoId') condoId: string, @Param('userId') userId: string) {
+    return this.condosService.findCondoToUser(+condoId, +userId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.condosService.remove(+id);
+  @Delete(':condoId/users/:userId')
+  removeUser(@Param('condoId') condoId: string, @Param('userId') userId: string) {
+    return this.condosService.removeUser(+condoId, +userId);
   }
+
+
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateCondoDto: UpdateCondoDto) {
+  //   return this.condosService.update(+id, updateCondoDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.condosService.remove(+id);
+  // }
 }

@@ -14,7 +14,7 @@ export class Condo {
   address: string;
 
   @Column()
-  @Index()
+  @Index({ unique: true })
   slug: string;
 
   @OneToMany(() => CondoToUser, (condoToUser) => condoToUser.condo)

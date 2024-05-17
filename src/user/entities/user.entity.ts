@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()
 @Unique(['email'])
@@ -9,12 +9,17 @@ export class User {
   @Column({ type: 'text' })
   email: string;
 
-  @Column({ type: 'text', nullable: true })
-  password?: string;
+  @Column({ type: 'text' })
+  givenName?: string;
 
   @Column({ type: 'text' })
-  name: string;
+  familyName?: string;
 
+  @Column({ type: 'text' })
+  picture?: string;
+
+  @CreateDateColumn()
   createdAt: Date;
+  @UpdateDateColumn()
   updatedAt: Date;
 }

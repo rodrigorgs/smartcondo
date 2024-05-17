@@ -6,9 +6,11 @@ export class CreateUserDto {
   email: string;
 
   @IsString()
-  @MinLength(2, { message: 'Name must have at least 2 characters.' })
-  name?: string;
+  givenName?: string;
 
-  @MinLength(8, { message: 'Username must have at least 8 characters.' })
-  password?: string;
+  @IsString()
+  familyName?: string;
+
+  @IsString()
+  picture?: string;
 }

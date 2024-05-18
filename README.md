@@ -39,6 +39,12 @@ yarn run start:dev
 
 > **NOTE**: By default, the app listens on port 3000. To use a different port, set the `PORT` environment variable to the desired port number.
 
+On a different console:
+
+```console
+yarn run angular:dev
+```
+
 ### 4. Connect to your app
 
 Use a web browser to connect to [http://localhost:3000](http://localhost:3000)

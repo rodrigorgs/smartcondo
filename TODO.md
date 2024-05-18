@@ -1,5 +1,6 @@
 # TODO
 
+- Config deploy to build Angular frontend
 - Create automated tests
 - Use database migrations
 - Use slug in /condos/:id and all subpaths

@@ -12,6 +12,7 @@
     "pg-start": "docker run -d -p 5432:5432 --name pg-dev -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=smartcondo postgres",
     "pg-stop": "docker rm -f pg-dev",
     "pg-cli": "PGPASSWORD=123456 psql -h localhost -U postgres -d smartcondo",
+    "angular:dev": "cd frontend && ng build --watch",
     "start": "node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

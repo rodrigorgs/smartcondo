@@ -4,33 +4,47 @@ import { UpdateDeviceDto } from './dto/update-device.dto';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Device } from './entities/device.entity';
+import { EwelinkService } from 'src/ewelink/ewelink.service';
 
 @Injectable()
 export class DevicesService {
-  constructor(@InjectRepository(Device) private devicesRepository: Repository<Device>) { }
+  constructor(
+    @InjectRepository(Device) private devicesRepository: Repository<Device>,
+    private readonly ewelinkService: EwelinkService
+  ) { }
 
   async create(condoId: number, createDeviceDto: CreateDeviceDto) {
     const device = await this.devicesRepository.create({ ...createDeviceDto, condo: { id: condoId } });
     return this.devicesRepository.save(device);
   }
 
-  findAll() {
-    return `This action returns all devices`;
-  }
+  // findAll() {
+  //   return `This action returns all devices`;
+  // }
 
   findOne(id: number) {
-    return `This action returns a #${id} device`;
+    return this.devicesRepository.findOneBy({ id });
   }
 
   findOneByCondoSlugAndSlug(condoSlug: string, slug: string) {
     return this.devicesRepository.findOne({ where: { condo: { slug: condoSlug }, slug } });
   }
 
-  update(id: number, updateDeviceDto: UpdateDeviceDto) {
-    return `This action updates a #${id} device`;
+  async updateState(id: number) {
+    if (!id) {
+      throw new Error('Invalid device id');
+    }
+    const device = await this.findOne(id);
+    if (!device) {
+      throw new Error('Device not found');
+    }
+    this.ewelinkService.triggerSwitch(device.identifier);
   }
+  // update(id: number, updateDeviceDto: UpdateDeviceDto) {
+  //   return `This action updates a #${id} device`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} device`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} device`;
+  // }
 }

@@ -64,12 +64,27 @@ export class DevicesController {
     }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeviceDto: UpdateDeviceDto) {
-    return this.devicesService.update(+id, updateDeviceDto);
+  /**
+   * Update device state, e.g., turn a lamp on or off.
+   */
+  @Post(':deviceSlug/state')
+  @Public()
+  // TODO add body with info on the state update
+  async updateState(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {
+    const entities = await this.getEntities(condoSlug, req.user?.id, keyString);
+    if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
+      const device = await this.devicesService.findOneByCondoSlugAndSlug(condoSlug, deviceSlug);
+      this.devicesService.updateState(device?.id);
+      return device;
+    } else {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
   }
 
-  // TODO: updateState
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateDeviceDto: UpdateDeviceDto) {
+  //   return this.devicesService.update(+id, updateDeviceDto);
+  // }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

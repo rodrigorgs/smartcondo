@@ -6,6 +6,7 @@ import { Device } from './entities/device.entity';
 import { CondosModule } from 'src/condos/condos.module';
 import { UsersModule } from 'src/users/users.module';
 import { AccessKeysModule } from 'src/access-keys/access-keys.module';
+import { EwelinkModule } from 'src/ewelink/ewelink.module';
 
 @Module({
   controllers: [DevicesController],
@@ -13,6 +14,7 @@ import { AccessKeysModule } from 'src/access-keys/access-keys.module';
   imports: [TypeOrmModule.forFeature([Device]),
     CondosModule,
     UsersModule,
-    AccessKeysModule],
+    AccessKeysModule,
+    EwelinkModule],
 })
 export class DevicesModule {}

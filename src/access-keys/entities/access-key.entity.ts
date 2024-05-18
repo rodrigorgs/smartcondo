@@ -14,7 +14,7 @@ export class AccessKey {
   @Column()
   keyString: string;
 
-  @Column()
+  @Column({ nullable: true })
   description?: string;
 
   @ManyToOne(() => User, (user) => user.accessKeys)

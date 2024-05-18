@@ -8,6 +8,7 @@ import { CondoToUser } from './entities/condo-to-user.entity';
 @Module({
   controllers: [CondosController],
   providers: [CondosService],
+  exports: [CondosService],
   imports: [TypeOrmModule.forFeature([Condo, CondoToUser]),],
 })
 export class CondosModule {}

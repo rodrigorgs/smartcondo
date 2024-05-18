@@ -2,32 +2,36 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AccessKeysService } from './access-keys.service';
 import { CreateAccessKeyDto } from './dto/create-access-key.dto';
 
-@Controller('access-keys')
+@Controller('condos/:condoSlug/access-keys')
 export class AccessKeysController {
   constructor(private readonly accessKeysService: AccessKeysService) {}
 
   @Post()
-  create(@Body() createAccessKeyDto: CreateAccessKeyDto) {
-    return this.accessKeysService.create(createAccessKeyDto);
+  create(@Param('condoSlug') condoSlug: string, @Body() createAccessKeyDto: CreateAccessKeyDto) {
+    return this.accessKeysService.create(condoSlug, createAccessKeyDto);
   }
 
-  @Get()
-  findAll() {
-    return this.accessKeysService.findAll();
-  }
+  // TODO
+  // @Get()
+  // findAll() {
+  //   return this.accessKeysService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.accessKeysService.findOne(+id);
-  }
+  // TODO
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.accessKeysService.findOne(+id);
+  // }
 
-  @Get('condo/:condoId')
-  findByCondoAndKey(@Param('condoId') condoId: string, @Param('key') key: string) {
-    return this.accessKeysService.findByCondoAndKey(+condoId, key);
-  }
+  // TODO: rewrite
+  // @Get('condo/:condoId')
+  // findByCondoAndKey(@Param('condoId') condoId: string, @Param('key') key: string) {
+  //   return this.accessKeysService.findByCondoAndKey(+condoId, key);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.accessKeysService.remove(+id);
-  }
+  // TODO
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.accessKeysService.remove(+id);
+  // }
 }

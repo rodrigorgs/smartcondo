@@ -26,7 +26,7 @@ export class CondosService {
     return this.condosRepository.findOneBy({ id });
   }
 
-  findBySlug(slug: string) {
+  findOneBySlug(slug: string) {
     return this.condosRepository.findOne({ where: { slug } });
   }
 

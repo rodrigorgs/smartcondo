@@ -9,7 +9,7 @@ export class CondoToUser {
   id: number;
 
   @Column()
-  isAdmin: boolean;
+  isManager: boolean;
 
   @ManyToOne(() => Condo, (condo) => condo.condoToUsers)
   condo: Condo;

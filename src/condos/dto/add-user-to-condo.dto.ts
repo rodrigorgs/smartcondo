@@ -1,3 +1,3 @@
 interface AddUserToCondoDto {
-  isAdmin: boolean;
+  isManager: boolean;
 }

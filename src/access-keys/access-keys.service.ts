@@ -10,7 +10,7 @@ export class AccessKeysService {
   constructor(
     @InjectRepository(AccessKey) private accessKeysRepository: Repository<AccessKey>,
     private readonly condosService: CondosService,
-  ) {}
+  ) { }
 
   async create(condoSlug: string, createAccessKeyDto: CreateAccessKeyDto) {
     const keyString = Math.random().toString(36).substring(2, 15);
@@ -18,10 +18,18 @@ export class AccessKeysService {
     if (!condo) {
       throw new HttpException('Condo not found', 404);
     }
-    const accessKey = this.accessKeysRepository.create({...createAccessKeyDto, keyString, condo: { id: condo.id }});
+    const accessKey = this.accessKeysRepository.create({ ...createAccessKeyDto, keyString, condo: { id: condo.id } });
     return this.accessKeysRepository.save(accessKey);
   }
 
+  findByCondoSlugAndUser(condoSlug: string, userId: number) {
+    return this.accessKeysRepository.find({
+      where: {
+        user: { id: userId },
+        condo: { slug: condoSlug }
+      }
+    });
+  }
   findByCondoSlug(condoSlug: string) {
     return this.accessKeysRepository.find({ where: { condo: { slug: condoSlug } } });
   }

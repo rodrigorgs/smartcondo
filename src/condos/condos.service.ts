@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateCondoDto } from './dto/create-condo.dto';
-import { UpdateCondoDto } from './dto/update-condo.dto';
 import { Repository } from 'typeorm';
 import { Condo } from './entities/condo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,9 +10,13 @@ export class CondosService {
   constructor(
     @InjectRepository(Condo) private condosRepository: Repository<Condo>,
     @InjectRepository(CondoToUser) private condoToUsersRepository: Repository<CondoToUser>
-  ) {}
+  ) { }
 
-  create(createCondoDto: CreateCondoDto) {
+  async create(createCondoDto: CreateCondoDto) {
+    const existingCondo = await this.findOneBySlug(createCondoDto.slug);
+    if (existingCondo) {
+      throw new ConflictException('Condo with this slug already exists');
+    }
     const condo = this.condosRepository.create(createCondoDto);
     return this.condosRepository.save(condo);
   }
@@ -28,6 +31,16 @@ export class CondosService {
 
   findOneBySlug(slug: string) {
     return this.condosRepository.findOne({ where: { slug } });
+  }
+
+  findCondoToUserBySlug(condoSlug: string, userId: number) {
+    return this.condoToUsersRepository.findOne({
+      where: {
+        user: { id: userId },
+        condo: { slug: condoSlug }
+      },
+      relations: ['condo', 'user']
+    });
   }
 
   findCondoToUser(condoId: number, userId: number) {
@@ -47,7 +60,7 @@ export class CondosService {
   removeUser(condoId: number, userId: number) {
     return this.condoToUsersRepository.delete({ condo: { id: condoId }, user: { id: userId } });
   }
-  
+
   // update(id: number, updateCondoDto: UpdateCondoDto) {
   //   return `This action updates a #${id} condo`;
   // }

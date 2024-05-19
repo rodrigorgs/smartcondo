@@ -1,19 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, ForbiddenException } from '@nestjs/common';
 import { AccessKeysService } from './access-keys.service';
 import { CreateAccessKeyDto } from './dto/create-access-key.dto';
+import { CondosService } from 'src/condos/condos.service';
 
 @Controller('condos/:condoSlug/access-keys')
 export class AccessKeysController {
-  constructor(private readonly accessKeysService: AccessKeysService) {}
+  constructor(
+    private readonly accessKeysService: AccessKeysService,
+    private readonly condosService: CondosService,
+  ) {}
 
   @Post()
-  create(@Param('condoSlug') condoSlug: string, @Body() createAccessKeyDto: CreateAccessKeyDto) {
-    return this.accessKeysService.create(condoSlug, createAccessKeyDto);
+  create(@Req() req, @Param('condoSlug') condoSlug: string, @Body() createAccessKeyDto: CreateAccessKeyDto) {
+    const user = req.user;
+    if (user.isAdmin || this.condosService.findCondoToUserBySlug(condoSlug, user.id)) {
+      return this.accessKeysService.create(condoSlug, createAccessKeyDto);
+    } else {
+      throw new ForbiddenException();
+    }
   }
 
   @Get()
-  findAll(@Param('condoSlug') condoSlug: string) {
-    return this.accessKeysService.findByCondoSlug(condoSlug);
+  findAll(@Req() req, @Param('condoSlug') condoSlug: string) {
+    const user = req.user;
+    if (user.isAdmin) {
+      return this.accessKeysService.findByCondoSlug(condoSlug);
+    } else if (this.condosService.findCondoToUserBySlug(condoSlug, user.id)) {
+      return this.accessKeysService.findByCondoSlugAndUser(condoSlug, user.id);
+    } else {
+      throw new ForbiddenException();
+    }
   }
 
   // TODO

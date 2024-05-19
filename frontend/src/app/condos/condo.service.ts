@@ -15,4 +15,9 @@ export class CondoService {
   getCondoBySlug(slug: string) {
     return this.http.get(`/api/condos/${slug}`);
   }
+
+  createCondo(condo: { name: string; address: string; slug: string }) {
+    console.log('Service creating condo', condo);
+    return this.http.post(`/api/condos`, condo);
+  }
 }

@@ -40,7 +40,7 @@ export class DevicesController {
   @Post()
   async create(@Req() req, @Param('condoSlug') condoSlug: string, @Body() createDeviceDto: CreateDeviceDto) {
     const entities = await this.getEntities(condoSlug, req.user?.id);
-    if (entities.user.isAdmin || entities.condoToUser?.isAdmin) {
+    if (entities.user.isAdmin || entities.condoToUser?.isManager) {
       return await this.devicesService.create(entities.condo.id, createDeviceDto);
     } else {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);

@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let device of devices">
+    <a [routerLink]="['/condos', condo.slug, 'devices', device.slug]" [queryParams]="{ key: key }">
+      {{ device.name }} ({{ device.slug }})
+    </a>
+  </li>
+</ul>

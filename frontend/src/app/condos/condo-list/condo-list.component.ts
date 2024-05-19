@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { CondoService } from './condo.service';
+import { CondoService } from '../condo.service';
 import { CommonModule } from '@angular/common';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-condos',
+  selector: 'condo-list',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './condos.component.html',
-  styleUrl: './condos.component.scss'
+  imports: [CommonModule, RouterModule],
+  templateUrl: './condo-list.component.html',
+  styleUrl: './condo-list.component.scss'
 })
-export class CondosComponent {
+export class CondoListComponent {
   condos: Array<any> = [];
 
   constructor(private condoService: CondoService) {

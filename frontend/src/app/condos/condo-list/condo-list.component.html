@@ -1,0 +1,9 @@
+<h1>Condos</h1>
+
+<ul>
+  <li *ngFor="let condo of condos">
+    <a [routerLink]="['/condos', condo.slug]">
+      {{ condo.name }} ({{ condo.slug }})
+    </a>
+  </li>
+</ul>

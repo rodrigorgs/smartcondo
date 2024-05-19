@@ -15,11 +15,16 @@ export class CondosController {
   findAll() {
     return this.condosService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.condosService.findOne(+id);
+  
+  @Get(':slug')
+  findOneBySlug(@Param('slug') slug: string) {
+    return this.condosService.findOneBySlug(slug);
   }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.condosService.findOne(+id);
+  // }
 
   @Post(':condoId/users/:userId')
   addUser(@Param('condoId') condoId: string, @Param('userId') userId: string, @Body() body: AddUserToCondoDto) {

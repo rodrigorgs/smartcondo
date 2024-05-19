@@ -12,4 +12,7 @@ export class CondoService {
     return this.http.get(`/api/condos`);
   }
 
+  getCondoBySlug(slug: string) {
+    return this.http.get(`/api/condos/${slug}`);
+  }
 }

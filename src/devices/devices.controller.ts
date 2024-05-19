@@ -47,10 +47,15 @@ export class DevicesController {
     }
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.devicesService.findAll();
-  // }
+  @Get()
+  async findAll(@Req() req, @Param('condoSlug') condoSlug: string, @Query('key') keyString: string) {
+    const entities = await this.getEntities(condoSlug, req.user?.id, keyString);
+    if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
+      return this.devicesService.findByCondoSlug(condoSlug);
+    } else {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+  }
 
   @Get(':deviceSlug')
   @Public()

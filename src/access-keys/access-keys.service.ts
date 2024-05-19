@@ -22,8 +22,8 @@ export class AccessKeysService {
     return this.accessKeysRepository.save(accessKey);
   }
 
-  findByCondo(condoId: number) {
-    return this.accessKeysRepository.find({ where: { condo: { id: condoId } } });
+  findByCondoSlug(condoSlug: string) {
+    return this.accessKeysRepository.find({ where: { condo: { slug: condoSlug } } });
   }
 
   findByCondoAndKey(condoId: number, keyString: string) {

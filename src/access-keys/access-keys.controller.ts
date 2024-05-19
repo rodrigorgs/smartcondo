@@ -11,11 +11,10 @@ export class AccessKeysController {
     return this.accessKeysService.create(condoSlug, createAccessKeyDto);
   }
 
-  // TODO
-  // @Get()
-  // findAll() {
-  //   return this.accessKeysService.findAll();
-  // }
+  @Get()
+  findAll(@Param('condoSlug') condoSlug: string) {
+    return this.accessKeysService.findByCondoSlug(condoSlug);
+  }
 
   // TODO
   // @Get(':id')

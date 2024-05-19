@@ -18,9 +18,9 @@ export class DevicesService {
     return this.devicesRepository.save(device);
   }
 
-  // findAll() {
-  //   return `This action returns all devices`;
-  // }
+  findByCondoSlug(condoSlug: string) {
+    return this.devicesRepository.findBy({ condo: { slug: condoSlug } });
+  }
 
   findOne(id: number) {
     return this.devicesRepository.findOneBy({ id });

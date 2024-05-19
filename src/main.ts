@@ -11,9 +11,9 @@ async function bootstrap() {
 
   // app.useStaticAssets(join(__dirname, '..', 'public'));
   // app.useStaticAssets(join(__dirname, '..', 'frontend/dist/frontend/browser'));
-  // app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  // app.setViewEngine('hbs');
-  app.setGlobalPrefix('api');
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
+  app.setGlobalPrefix('api', { exclude: ['@mar-azul/portao'] });
   app.use(cookieParser());
 
   await app.listen(port);

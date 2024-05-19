@@ -1,5 +1,5 @@
 import { Condo } from "src/condos/entities/condo.entity";
-import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()
 @Unique(['identifier', 'condo'])
@@ -18,6 +18,11 @@ export class Device {
   @Index()
   slug: string;
 
-  @ManyToOne(() => Condo, (condo) => condo.devices)
+  @ManyToOne(() => Condo, (condo) => condo.devices, { nullable: false })
   condo: Condo;
+
+  @CreateDateColumn()
+  createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

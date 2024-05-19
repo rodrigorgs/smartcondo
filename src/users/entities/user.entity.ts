@@ -23,7 +23,7 @@ export class User {
   @Column({ type: 'text' })
   picture?: string;
 
-  @ManyToOne(() => CondoToUser, (condoToUser) => condoToUser.user)
+  @OneToMany(() => CondoToUser, (condoToUser) => condoToUser.user)
   condoToUsers: CondoToUser[];
 
   @OneToMany(() => AccessKey, (accessKey) => accessKey.user)

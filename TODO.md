@@ -5,6 +5,7 @@
 - Create automated tests
 - Maybe use Nx to manage monorepo and share code between backend and frontend
 - Use slug in /condos/:id and all subpaths
+- Create table: access_log
 - Create table: provider_account (e.g., ewelink, tuya etc.) -- link it to devices
 - i18n, l10n
 

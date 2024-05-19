@@ -38,7 +38,7 @@ export class DevicesService {
     if (!device) {
       throw new Error('Device not found');
     }
-    this.ewelinkService.triggerSwitch(device.identifier);
+    return await this.ewelinkService.triggerSwitch(device.identifier);
   }
   // update(id: number, updateDeviceDto: UpdateDeviceDto) {
   //   return `This action updates a #${id} device`;

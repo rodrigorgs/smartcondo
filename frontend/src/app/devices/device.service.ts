@@ -16,4 +16,8 @@ export class DeviceService {
   getDevice(condoSlug: string, deviceSlug: string, accessKey: string = "") {
     return this.http.get(`/api/condos/${condoSlug}/devices/${deviceSlug}?key=${accessKey}`);
   }
+
+  activateDevice(condoSlug: string, deviceSlug: string, accessKey: string = "") {
+    return this.http.post(`/api/condos/${condoSlug}/devices/${deviceSlug}/state?key=${accessKey}`, {});
+  }
 }

@@ -41,12 +41,17 @@ export class DeviceDetailComponent {
   }
 
   async activateDevice() {
+    const condoSlug = this.route.snapshot.paramMap.get('condoSlug');
+    const deviceSlug = this.route.snapshot.paramMap.get('deviceSlug');
+    if (!condoSlug || !deviceSlug) {
+      throw new Error('Invalid condo or device');
+    }
+
     this.message = 'Aguardando resposta...';
     // wait 1 second
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    this.message = 'Dispositivo ativado!';
-    // this.deviceService.activateDevice(this.device.slug, this.key).subscribe((device: any) => {
-    //   this.device = device;
-    // });
+    // await new Promise(resolve => setTimeout(resolve, 1000));
+    this.deviceService.activateDevice(condoSlug, deviceSlug, this.key).subscribe((x: any) => {
+      this.message = x.msg;
+    });
   }
 }

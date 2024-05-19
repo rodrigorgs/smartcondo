@@ -79,8 +79,7 @@ export class DevicesController {
     const entities = await this.getEntities(condoSlug, req.user?.id, keyString);
     if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
       const device = await this.devicesService.findOneByCondoSlugAndSlug(condoSlug, deviceSlug);
-      this.devicesService.updateState(device?.id);
-      return device;
+      return await this.devicesService.updateState(device?.id);
     } else {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }

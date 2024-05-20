@@ -80,3 +80,20 @@ yarn run test:e2e
 # test coverage
 yarn run test:cov
 ```
+
+## Evolving
+
+### Database migrations
+
+To generate a new migration from existing entities:
+
+```console
+yarn run migration:generate migrations/MigrationName
+```
+
+To run migrations:
+
+```console
+yarn build
+yarn run migration:run
+```

@@ -13,6 +13,7 @@
     "pg-stop": "docker rm -f pg-dev",
     "pg-cli": "PGPASSWORD=123456 psql -h localhost -U postgres -d smartcondo",
     "angular:dev": "cd frontend && ng build --watch",
+    "angular:build": "cd frontend && ng build --prod",
     "start": "node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -22,7 +23,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migration:generate": "npx typeorm-ts-node-esm migration:generate -d ormconfig.ts",
+    "migration:run": "npx typeorm-ts-node-esm migration:run -d ormconfig.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

@@ -31,7 +31,7 @@ const databaseUrl =
       type: 'postgres',
       url: databaseUrl,
       entities: [User, Condo, User, CondoToUser, Device, AccessKey],
-      synchronize: true,
+      synchronize: false,
     }),
     UsersModule,
     AuthModule,

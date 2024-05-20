@@ -25,7 +25,7 @@ const databaseUrl =
   imports: [
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'frontend/dist/frontend/browser'),
+      rootPath: join(__dirname, '..', 'dist/frontend/browser'),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',

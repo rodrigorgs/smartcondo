@@ -13,7 +13,7 @@ export class AccessKeysController {
   @Post()
   create(@Req() req, @Param('condoSlug') condoSlug: string, @Body() createAccessKeyDto: CreateAccessKeyDto) {
     const user = req.user;
-    if (user.isAdmin || this.condosService.findCondoToUserBySlug(condoSlug, user.id)) {
+    if (user.isAdmin || this.condosService.findCondoToUserBySlug(condoSlug, user.sub)) {
       return this.accessKeysService.create(condoSlug, createAccessKeyDto);
     } else {
       throw new ForbiddenException();
@@ -25,8 +25,8 @@ export class AccessKeysController {
     const user = req.user;
     if (user.isAdmin) {
       return this.accessKeysService.findByCondoSlug(condoSlug);
-    } else if (this.condosService.findCondoToUserBySlug(condoSlug, user.id)) {
-      return this.accessKeysService.findByCondoSlugAndUser(condoSlug, user.id);
+    } else if (this.condosService.findCondoToUserBySlug(condoSlug, user.sub)) {
+      return this.accessKeysService.findByCondoSlugAndUser(condoSlug, user.sub);
     } else {
       throw new ForbiddenException();
     }

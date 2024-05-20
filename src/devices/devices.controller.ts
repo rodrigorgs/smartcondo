@@ -21,7 +21,9 @@ export class DevicesController {
   ) { }
 
   async getEntities(condoSlug: string, userId?: number, accessKeyString?: string): Promise<{user?: User, condo: Condo, condoToUser?: CondoToUser, accessKey?: AccessKey}> {
+    console.log('userId', userId);
     const user = userId ? await this.usersService.findOne(userId) : null;
+    console.log('user', user);
 
     const condo = await this.condosService.findOneBySlug(condoSlug);
     if (!condo) {
@@ -39,7 +41,8 @@ export class DevicesController {
 
   @Post()
   async create(@Req() req, @Param('condoSlug') condoSlug: string, @Body() createDeviceDto: CreateDeviceDto) {
-    const entities = await this.getEntities(condoSlug, req.user?.id);
+    console.log(req);
+    const entities = await this.getEntities(condoSlug, req.user?.sub);
     if (entities.user.isAdmin || entities.condoToUser?.isManager) {
       return await this.devicesService.create(entities.condo.id, createDeviceDto);
     } else {
@@ -49,7 +52,7 @@ export class DevicesController {
 
   @Get()
   async findAll(@Req() req, @Param('condoSlug') condoSlug: string, @Query('key') keyString: string) {
-    const entities = await this.getEntities(condoSlug, req.user?.id, keyString);
+    const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
     if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
       return this.devicesService.findByCondoSlug(condoSlug);
     } else {
@@ -60,7 +63,7 @@ export class DevicesController {
   @Get(':deviceSlug')
   @Public()
   async findOne(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {
-    const entities = await this.getEntities(condoSlug, req.user?.id, keyString);
+    const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
     if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
       const device = await this.devicesService.findOneByCondoSlugAndSlug(condoSlug, deviceSlug);
       return device;
@@ -76,7 +79,7 @@ export class DevicesController {
   @Public()
   // TODO add body with info on the state update
   async updateState(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {
-    const entities = await this.getEntities(condoSlug, req.user?.id, keyString);
+    const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
     if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
       const device = await this.devicesService.findOneByCondoSlugAndSlug(condoSlug, deviceSlug);
       return await this.devicesService.updateState(device?.id);

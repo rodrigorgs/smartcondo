@@ -55,8 +55,13 @@ export class EwelinkService {
     // return this.connection.setDevicePowerState(deviceId, state);
   }
 
-  async triggerSwitch() {
-    const deviceId = this.configService.get<string>('EWELINK_DEVICE_ID');
-    return this.setDevicePower(deviceId, 'on');
+  async triggerSwitch(deviceId: string) {
+    // if (!deviceId) {
+    //   // TODO: remove
+    //   deviceId = this.configService.get<string>('EWELINK_DEVICE_ID');
+    // }
+    const result = await this.setDevicePower(deviceId, 'on');
+    console.log('triggerSwitch result:', result)
+    return result;
   }
 }

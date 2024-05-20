@@ -1,0 +1,3 @@
+interface AddUserToCondoDto {
+  isManager: boolean;
+}

@@ -1,0 +1,17 @@
+<!-- if not condo -->
+<div *ngIf="!condo">
+  <p>Loading...</p>
+</div>
+
+<!-- if condo -->
+<div *ngIf="condo">
+  <h1>{{ condo.name }}</h1>
+
+  <ul>
+    <li>Address: {{ condo.address }}</li>
+  </ul>
+
+  <h2>Devices</h2>
+  <a [routerLink]="['/condos', condo.slug, 'devices']" class="btn btn-primary">List devices</a>
+</div>
+

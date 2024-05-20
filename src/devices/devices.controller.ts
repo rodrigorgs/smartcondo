@@ -2,14 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UnauthorizedExc
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
-import { CondosService } from 'src/condos/condos.service';
-import { UsersService } from 'src/users/users.service';
-import { AccessKeysService } from 'src/access-keys/access-keys.service';
-import { User } from 'src/users/entities/user.entity';
-import { Condo } from 'src/condos/entities/condo.entity';
-import { CondoToUser } from 'src/condos/entities/condo-to-user.entity';
-import { AccessKey } from 'src/access-keys/entities/access-key.entity';
-import { Public } from 'src/auth/public.decorator';
+import { CondosService } from 'condos/condos.service';
+import { UsersService } from 'users/users.service';
+import { AccessKeysService } from 'access-keys/access-keys.service';
+import { User } from 'users/entities/user.entity';
+import { Condo } from 'condos/entities/condo.entity';
+import { CondoToUser } from 'condos/entities/condo-to-user.entity';
+import { AccessKey } from 'access-keys/entities/access-key.entity';
+import { Public } from 'auth/public.decorator';
 
 @Controller('condos/:condoSlug/devices')
 export class DevicesController {

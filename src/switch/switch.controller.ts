@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query, Render } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EwelinkService } from 'src/ewelink/ewelink.service';
+import { EwelinkService } from 'ewelink/ewelink.service';
 
 @Controller('/@mar-azul')
 export class SwitchController {

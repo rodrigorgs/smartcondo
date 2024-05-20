@@ -4,7 +4,7 @@ import { UpdateDeviceDto } from './dto/update-device.dto';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Device } from './entities/device.entity';
-import { EwelinkService } from 'src/ewelink/ewelink.service';
+import { EwelinkService } from 'ewelink/ewelink.service';
 
 @Injectable()
 export class DevicesService {

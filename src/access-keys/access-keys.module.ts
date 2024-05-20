@@ -3,7 +3,7 @@ import { AccessKeysService } from './access-keys.service';
 import { AccessKeysController } from './access-keys.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccessKey } from './entities/access-key.entity';
-import { CondosModule } from 'src/condos/condos.module';
+import { CondosModule } from 'condos/condos.module';
 
 @Module({
   controllers: [AccessKeysController],

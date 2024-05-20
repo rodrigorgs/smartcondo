@@ -1,4 +1,4 @@
-import { Condo } from "src/condos/entities/condo.entity";
+import { Condo } from "condos/entities/condo.entity";
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()

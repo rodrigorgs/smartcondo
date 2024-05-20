@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, ForbiddenException } from '@nestjs/common';
 import { AccessKeysService } from './access-keys.service';
 import { CreateAccessKeyDto } from './dto/create-access-key.dto';
-import { CondosService } from 'src/condos/condos.service';
+import { CondosService } from 'condos/condos.service';
 
 @Controller('condos/:condoSlug/access-keys')
 export class AccessKeysController {

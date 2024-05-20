@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, Index, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CondoToUser } from "./condo-to-user.entity";
-import { Device } from "src/devices/entities/device.entity";
-import { AccessKey } from "src/access-keys/entities/access-key.entity";
+import { Device } from "devices/entities/device.entity";
+import { AccessKey } from "access-keys/entities/access-key.entity";
 
 @Entity()
 export class Condo {

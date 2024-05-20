@@ -3,10 +3,10 @@ import { DevicesService } from './devices.service';
 import { DevicesController } from './devices.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Device } from './entities/device.entity';
-import { CondosModule } from 'src/condos/condos.module';
-import { UsersModule } from 'src/users/users.module';
-import { AccessKeysModule } from 'src/access-keys/access-keys.module';
-import { EwelinkModule } from 'src/ewelink/ewelink.module';
+import { CondosModule } from 'condos/condos.module';
+import { UsersModule } from 'users/users.module';
+import { AccessKeysModule } from 'access-keys/access-keys.module';
+import { EwelinkModule } from 'ewelink/ewelink.module';
 
 @Module({
   controllers: [DevicesController],

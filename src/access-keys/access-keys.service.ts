@@ -3,7 +3,7 @@ import { CreateAccessKeyDto } from './dto/create-access-key.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccessKey } from './entities/access-key.entity';
 import { Repository } from 'typeorm';
-import { CondosService } from 'src/condos/condos.service';
+import { CondosService } from 'condos/condos.service';
 
 @Injectable()
 export class AccessKeysService {

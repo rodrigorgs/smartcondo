@@ -1,5 +1,5 @@
-import { AccessKey } from "src/access-keys/entities/access-key.entity";
-import { CondoToUser } from "src/condos/entities/condo-to-user.entity";
+import { AccessKey } from "access-keys/entities/access-key.entity";
+import { CondoToUser } from "condos/entities/condo-to-user.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()

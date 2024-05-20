@@ -1,5 +1,5 @@
-import { Condo } from "src/condos/entities/condo.entity";
-import { User } from "src/users/entities/user.entity";
+import { Condo } from "condos/entities/condo.entity";
+import { User } from "users/entities/user.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()

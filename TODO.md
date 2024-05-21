@@ -1,7 +1,5 @@
 # TODO
 
-- Use database migrations
-- Config deploy to build Angular frontend
 - Create automated tests
 - Maybe use Nx to manage monorepo and share code between backend and frontend
 - Use slug in /condos/:id and all subpaths

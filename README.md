@@ -94,6 +94,5 @@ yarn run migration:generate migrations/MigrationName
 To run migrations:
 
 ```console
-yarn build
 yarn run migration:run
 ```

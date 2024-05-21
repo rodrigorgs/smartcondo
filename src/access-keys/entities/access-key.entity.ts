@@ -17,13 +17,16 @@ export class AccessKey {
   @Column({ nullable: true })
   description?: string;
 
+  /**
+   * User who created this access key.
+   */
   @ManyToOne(() => User, (user) => user.accessKeys)
   user?: User;
 
-  @Column()
+  @Column({ nullable: true })
   validFrom?: Date;
 
-  @Column()
+  @Column({ nullable: true })
   validTo?: Date;
 
   @DeleteDateColumn()
@@ -38,6 +41,6 @@ export class AccessKey {
     const now = new Date();
     return (this.deletedAt == null)
         && (this.validFrom == null || now >= this.validFrom)
-        && (this.validTo != null || now <= this.validTo);
+        && (this.validTo == null || now <= this.validTo);
   }
 }

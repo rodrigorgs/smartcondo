@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UnauthorizedException, Query, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UnauthorizedException, Query, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
@@ -10,6 +10,7 @@ import { Condo } from 'condos/entities/condo.entity';
 import { CondoToUser } from 'condos/entities/condo-to-user.entity';
 import { AccessKey } from 'access-keys/entities/access-key.entity';
 import { Public } from 'auth/public.decorator';
+import { OptionalJwtAuthGuard } from 'auth/guard/optional-jwt.guard';
 
 @Controller('condos/:condoSlug/devices')
 export class DevicesController {
@@ -21,9 +22,7 @@ export class DevicesController {
   ) { }
 
   async getEntities(condoSlug: string, userId?: number, accessKeyString?: string): Promise<{user?: User, condo: Condo, condoToUser?: CondoToUser, accessKey?: AccessKey}> {
-    console.log('userId', userId);
     const user = userId ? await this.usersService.findOne(userId) : null;
-    console.log('user', user);
 
     const condo = await this.condosService.findOneBySlug(condoSlug);
     if (!condo) {
@@ -61,6 +60,7 @@ export class DevicesController {
   }
 
   @Get(':deviceSlug')
+  @UseGuards(OptionalJwtAuthGuard)
   @Public()
   async findOne(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {
     const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
@@ -76,6 +76,7 @@ export class DevicesController {
    * Update device state, e.g., turn a lamp on or off.
    */
   @Post(':deviceSlug/state')
+  @UseGuards(OptionalJwtAuthGuard)
   @Public()
   // TODO add body with info on the state update
   async updateState(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {

@@ -17,6 +17,7 @@ import { Device } from './devices/entities/device.entity';
 import { AccessKeysModule } from './access-keys/access-keys.module';
 import { AccessKey } from './access-keys/entities/access-key.entity';
 import { EwelinkModule } from './ewelink/ewelink.module';
+import { DeviceActivity } from 'devices/entities/access-log.entity';
 
 const databaseUrl =
   process.env.DATABASE_URL || 'postgres://postgres:123456@localhost:5432/smartcondo';
@@ -30,7 +31,7 @@ const databaseUrl =
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: databaseUrl,
-      entities: [User, Condo, User, CondoToUser, Device, AccessKey],
+      entities: [User, Condo, User, CondoToUser, Device, AccessKey, DeviceActivity],
       synchronize: false,
     }),
     UsersModule,

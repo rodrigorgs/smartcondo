@@ -51,7 +51,7 @@ export class DeviceDetailComponent {
     // wait 1 second
     // await new Promise(resolve => setTimeout(resolve, 1000));
     this.deviceService.activateDevice(condoSlug, deviceSlug, this.key).subscribe((x: any) => {
-      this.message = x.msg;
+      this.message = x.originalResponse.msg;
     });
   }
 }

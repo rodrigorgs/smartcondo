@@ -38,6 +38,10 @@ export class AccessKeysService {
     return this.accessKeysRepository.findOne({ where: { condo: { id: condoId }, keyString } });
   }
 
+  findByCondoSlugAndKey(condoSlug: string, keyString: string) {
+    return this.accessKeysRepository.findOne({ where: { condo: { slug: condoSlug }, keyString } });
+  }
+
   findAll() {
     return this.accessKeysRepository.find();
   }

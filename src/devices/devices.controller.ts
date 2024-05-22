@@ -11,11 +11,13 @@ import { CondoToUser } from 'condos/entities/condo-to-user.entity';
 import { AccessKey } from 'access-keys/entities/access-key.entity';
 import { Public } from 'auth/public.decorator';
 import { OptionalJwtAuthGuard } from 'auth/guard/optional-jwt.guard';
+import { DeviceActivityService } from './device-activity.service';
 
 @Controller('condos/:condoSlug/devices')
 export class DevicesController {
   constructor(
     private readonly devicesService: DevicesService,
+    private readonly devicesActivityService: DeviceActivityService,
     private readonly condosService: CondosService,
     private readonly usersService: UsersService,
     private readonly accessKeysService: AccessKeysService,
@@ -83,7 +85,23 @@ export class DevicesController {
     const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
     if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
       const device = await this.devicesService.findOneByCondoSlugAndSlug(condoSlug, deviceSlug);
-      return await this.devicesService.updateState(device?.id);
+      let successful = false;
+      let result: any;
+      try {
+        result = await this.devicesService.updateState(device?.id);
+        successful = result.successful;
+      } finally {
+        this.devicesActivityService.createActivity({
+          condoSlug: condoSlug,
+          timestamp: new Date(),
+          deviceSlug: deviceSlug,
+          loggedInUserId: entities.user?.id,
+          accessKeyString: entities.accessKey?.keyString,
+          successful: successful,
+        });
+      }
+
+      return result;
     } else {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }

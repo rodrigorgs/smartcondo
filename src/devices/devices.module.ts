@@ -7,11 +7,13 @@ import { CondosModule } from 'condos/condos.module';
 import { UsersModule } from 'users/users.module';
 import { AccessKeysModule } from 'access-keys/access-keys.module';
 import { EwelinkModule } from 'ewelink/ewelink.module';
+import { DeviceActivity } from './entities/access-log.entity';
+import { DeviceActivityService } from './device-activity.service';
 
 @Module({
   controllers: [DevicesController],
-  providers: [DevicesService],
-  imports: [TypeOrmModule.forFeature([Device]),
+  providers: [DeviceActivityService, DevicesService],
+  imports: [TypeOrmModule.forFeature([Device, DeviceActivity]),
     CondosModule,
     UsersModule,
     AccessKeysModule,

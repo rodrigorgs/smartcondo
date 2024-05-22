@@ -30,7 +30,7 @@ export class DevicesService {
     return this.devicesRepository.findOne({ where: { condo: { slug: condoSlug }, slug } });
   }
 
-  async updateState(id: number) {
+  async updateState(id: number): Promise<{ successful: boolean, originalResponse: any }> {
     if (!id) {
       throw new Error('Invalid device id');
     }
@@ -38,7 +38,9 @@ export class DevicesService {
     if (!device) {
       throw new Error('Device not found');
     }
-    return await this.ewelinkService.triggerSwitch(device.identifier);
+    const result = await this.ewelinkService.triggerSwitch(device.identifier);
+
+    return { successful: result.error == 0, originalResponse: result};
   }
   // update(id: number, updateDeviceDto: UpdateDeviceDto) {
   //   return `This action updates a #${id} device`;

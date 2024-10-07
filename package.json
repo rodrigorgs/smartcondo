@@ -25,7 +25,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migration:generate": "npx typeorm-ts-node-esm migration:generate -d ormconfig.ts",
-    "migration:run": "mkdir -p dist/migrations && npx tsc migrations/*.ts --outDir dist/migrations/ && npx typeorm-ts-node-esm migration:run -d ormconfig.ts"
+    "migration:run": "mkdir -p dist/migrations && npx tsc ormconfig.ts --outDir dist && npx tsc migrations/*.ts --outDir dist/migrations/ && npx typeorm-ts-node-esm migration:run -d dist/ormconfig.js"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -78,7 +78,7 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.0.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.9.5"
   },
   "jest": {
     "moduleFileExtensions": [

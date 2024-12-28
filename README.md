@@ -97,3 +97,54 @@ To run migrations:
 yarn run migration:run
 ```
 
+## Using the app
+
+## Authentication
+
+Access `/api/auth/google` to authenticate with Google.
+
+Copy the cookies from the response headers and use them in your requests to the API.
+
+## Endpoints
+
+### `GET /condos` - Get all condos
+
+
+### `POST /condos` - Create a new condo
+
+Body:
+
+```json
+{
+	"name": "Plaza Hotel",
+	"address": "Drury Lane, 99",
+	"slug": "plaza-hotel"
+}
+```
+
+### `GET /condos/:condo/devices/:device` - Get info for a device
+
+### `POST /condos/:condo/devices` - Create a device
+
+Body:
+
+```json
+{
+	"identifier": "manufacturer-id",
+	"name": "Main Gate",
+	"slug": "gate"
+}
+```
+
+### `GET /condos/:condo/access-keys` - Get all access keys for a condo
+
+### `POST /condos/:condo/access-keys` - Create an access key
+
+Body (all fields are optional):
+
+```json
+{
+		"description": "Visitor key",
+		"validFrom": "2024-01-01T00:00:00.000Z",
+		"validTo": "2024-12-31T00:00:00.000Z",
+}

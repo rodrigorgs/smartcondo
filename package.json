@@ -16,7 +16,7 @@
     "pg-stop": "docker rm -f pg-dev",
     "pg-cli": "PGPASSWORD=123456 psql -h localhost -U postgres -d smartcondo",
     "angular:dev": "cd frontend && npx ng build --watch",
-    "angular:build": "cd frontend && yarn install && npx ng build",
+    "angular:build": "cd frontend && npx ng build",
     "start": "node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

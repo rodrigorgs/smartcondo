@@ -97,6 +97,13 @@ To run migrations:
 yarn run migration:run
 ```
 
+## Running in production (Dokku)
+
+```
+dokku run <app-name> yarn run migration:run
+dokku run smartcondo yarn angular:build
+```
+
 ## Using the app
 
 ## Authentication

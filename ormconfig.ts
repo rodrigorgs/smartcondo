@@ -9,8 +9,8 @@ const databaseUrl =
 const AppDataSource = new DataSource({
   type: 'postgres',
   url: databaseUrl,
-  entities: [__dirname + '/dist/**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/dist/migrations/**/*.js'],
+  entities: [__dirname + '/**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/migrations/**/*.js'],
 });
 
 export default AppDataSource;

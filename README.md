@@ -101,7 +101,6 @@ yarn run migration:run
 
 ```
 dokku run <app-name> yarn run migration:run
-dokku run smartcondo yarn angular:build
 ```
 
 ## Using the app

@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CondosService } from './condos.service';
 import { CreateCondoDto } from './dto/create-condo.dto';
+import { OptionalJwtAuthGuard } from 'auth/guard/optional-jwt.guard';
+import { Public } from 'auth/public.decorator';
 
 @Controller('condos')
 export class CondosController {
@@ -17,6 +19,8 @@ export class CondosController {
   }
   
   @Get(':slug')
+  @UseGuards(OptionalJwtAuthGuard)
+  @Public()
   findOneBySlug(@Param('slug') slug: string) {
     return this.condosService.findOneBySlug(slug);
   }

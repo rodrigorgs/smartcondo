@@ -38,6 +38,7 @@ COPY --from=nest-build /app/package.json .
 COPY --from=nest-build /app/yarn.lock .
 COPY --from=nest-build /app/node_modules ./node_modules
 COPY --from=nest-build /app/dist ./dist
+COPY --from=nest-build /app/ormconfig.ts .
 COPY --from=angular-build /usr/src/dist/frontend ./dist/frontend
 
 EXPOSE 3000

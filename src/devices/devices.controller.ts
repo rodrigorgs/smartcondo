@@ -61,6 +61,35 @@ export class DevicesController {
     }
   }
 
+  @Get(':deviceSlug/info')
+  @UseGuards(OptionalJwtAuthGuard)
+  @Public()
+  async getInfo(
+    @Req() req,
+    @Param('condoSlug') condoSlug: string,
+    @Param('deviceSlug') deviceSlug: string,
+    @Query('key') keyString: string,
+  ) {
+    const entities = await this.getEntities(
+      condoSlug,
+      req.user?.sub,
+      keyString,
+    );
+    if (
+      entities.accessKey?.isValid() ||
+      entities.user?.isAdmin ||
+      entities.condoToUser != null
+    ) {
+      const device = await this.devicesService.findOneByCondoSlugAndSlug(
+        condoSlug,
+        deviceSlug,
+      );
+      return this.devicesService.getInfo(device.id);
+    } else {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+  }
+
   @Get(':deviceSlug')
   @UseGuards(OptionalJwtAuthGuard)
   @Public()

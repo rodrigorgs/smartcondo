@@ -6,7 +6,7 @@ import eWeLink from "ewelink-api-next";
 export class EwelinkService {
   private client: any;
   private user = null;
-
+  
   constructor(private configService: ConfigService) {
     this.client = new eWeLink.WebAPI({
       appId: 'Uw83EKZFxdif7XFXEsrpduz5YyjP7nTl',
@@ -14,7 +14,7 @@ export class EwelinkService {
       region: this.configService.get<string>('EWELINK_REGION'),
     });
   }
-
+  
   async ensureLoggedIn() {
     if (this.user === null) {
       try {
@@ -31,12 +31,19 @@ export class EwelinkService {
       }
     }
   }
-
+  
+  async getDevice(identifier: string) {
+    await this.ensureLoggedIn();
+    return this.client.device.getThingStatus({
+      type: 1,
+      id: identifier,
+    });
+  }
   async getDevices() {
     await this.ensureLoggedIn();
     return this.client.device.getAllThings();
   }
-
+  
   async setDevicePower(deviceId: string, state: string) {
     await this.ensureLoggedIn();
     return this.client.device.setThingStatus({

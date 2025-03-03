@@ -154,3 +154,8 @@ Body (all fields are optional):
 		"validFrom": "2024-01-01T00:00:00.000Z",
 		"validTo": "2024-12-31T00:00:00.000Z",
 }
+```
+
+## Troubleshooting
+
+When trying to open a device, it says "access token expired". Restart the app and try again. (in Dokku: `dokku ps:restart smartcondo`)

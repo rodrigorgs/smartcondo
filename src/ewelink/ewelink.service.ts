@@ -29,6 +29,8 @@ export class EwelinkService {
       } catch (err) {
         console.log("Failed to login:", err.message);
       }
+    } else {
+      this.client.user.refreshToken();
     }
   }
   

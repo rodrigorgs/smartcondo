@@ -32,7 +32,11 @@ export class EwelinkService {
         console.log("Failed to login:", err.message);
       }
     } else {
-      await this.client.user.refreshToken();
+      try {
+        this.client.user.refreshToken();
+      } catch (err) {
+        console.log('Failed to refresh token:', err.message);
+      }
     }
   }
   

@@ -6,6 +6,7 @@ import eWeLink from "ewelink-api-next";
 export class EwelinkService {
   private client: any;
   private user = null;
+  private refreshToken?: string = null;
   
   constructor(private configService: ConfigService) {
     this.client = new eWeLink.WebAPI({
@@ -25,12 +26,13 @@ export class EwelinkService {
         });
         if (response.error === 0) {
           this.user = response.data.user;
+
         }
       } catch (err) {
         console.log("Failed to login:", err.message);
       }
     } else {
-      this.client.user.refreshToken();
+      await this.client.user.refreshToken();
     }
   }
   

@@ -33,7 +33,7 @@ export class EwelinkService {
       }
     } else {
       try {
-        this.client.user.refreshToken();
+        await this.client.user.refreshToken();
       } catch (err) {
         console.log('Failed to refresh token:', err.message);
       }

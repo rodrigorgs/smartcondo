@@ -1,27 +1,58 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  UseGuards,
+  ForbiddenException,
+} from '@nestjs/common';
 import { CondosService } from './condos.service';
 import { CreateCondoDto } from './dto/create-condo.dto';
 import { OptionalJwtAuthGuard } from 'auth/guard/optional-jwt.guard';
 import { Public } from 'auth/public.decorator';
+import { CurrentUser } from 'common/current-user.decorator';
+import { User } from 'users/entities/user.entity';
 
 @Controller('condos')
 export class CondosController {
   constructor(private readonly condosService: CondosService) {}
 
   @Post()
-  create(@Body() createCondoDto: CreateCondoDto) {
+  create(
+    @Body() createCondoDto: CreateCondoDto,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    if (!currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
     return this.condosService.create(createCondoDto);
   }
 
   @Get()
-  findAll() {
+  findAll(@CurrentUser() currentUser: User | null) {
+    if (!currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
     return this.condosService.findAll();
   }
-  
+
   @Get(':slug')
   @UseGuards(OptionalJwtAuthGuard)
   @Public()
-  findOneBySlug(@Param('slug') slug: string) {
+  async findOneBySlug(
+    @Param('slug') slug: string,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    const condoToUser = await this.condosService.findCondoToUserBySlug(
+      slug,
+      currentUser?.id,
+    );
+    if (!condoToUser && !currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+
     return this.condosService.findOneBySlug(slug);
   }
 
@@ -30,21 +61,58 @@ export class CondosController {
   //   return this.condosService.findOne(+id);
   // }
 
-  @Post(':condoId/users/:userId')
-  addUser(@Param('condoId') condoId: string, @Param('userId') userId: string, @Body() body: AddUserToCondoDto) {
-    return this.condosService.addOrUpdateUser(+condoId, +userId, body);
-  }
-  
-  @Get(':condoId/users/:userId')
-  findCondoToUser(@Param('condoId') condoId: string, @Param('userId') userId: string) {
-    return this.condosService.findCondoToUser(+condoId, +userId);
+  @Post(':slug/users/:userId')
+  async addUser(
+    @Param('slug') slug: string,
+    @Param('userId') userId: string,
+    @Body() body: AddUserToCondoDto,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    const condoToUser = await this.condosService.findCondoToUserBySlug(
+      slug,
+      currentUser?.id,
+    );
+    if (!condoToUser?.isManager && !currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+    return this.condosService.addOrUpdateUser(
+      +condoToUser.condo.id,
+      +userId,
+      body,
+    );
   }
 
-  @Delete(':condoId/users/:userId')
-  removeUser(@Param('condoId') condoId: string, @Param('userId') userId: string) {
-    return this.condosService.removeUser(+condoId, +userId);
+  @Get(':slug/users/:userId')
+  async findCondoToUser(
+    @Param('slug') slug: string,
+    @Param('userId') userId: string,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    const condoToUser = await this.condosService.findCondoToUserBySlug(
+      slug,
+      currentUser?.id,
+    );
+    if (!condoToUser?.isManager && !currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+    return this.condosService.findCondoToUser(+condoToUser.condo.id, +userId);
   }
 
+  @Delete(':slug/users/:userId')
+  async removeUser(
+    @Param('slug') slug: string,
+    @Param('userId') userId: string,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    const condoToUser = await this.condosService.findCondoToUserBySlug(
+      slug,
+      currentUser?.id,
+    );
+    if (!condoToUser?.isManager && !currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+    return this.condosService.removeUser(+condoToUser.condo.id, +userId);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateCondoDto: UpdateCondoDto) {

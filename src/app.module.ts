@@ -18,6 +18,7 @@ import { AccessKeysModule } from './access-keys/access-keys.module';
 import { AccessKey } from './access-keys/entities/access-key.entity';
 import { EwelinkModule } from './ewelink/ewelink.module';
 import { DeviceActivity } from 'devices/entities/access-log.entity';
+import { CommonModule } from './common/common.module';
 
 const databaseUrl =
   process.env.DATABASE_URL || 'postgres://postgres:123456@localhost:5432/smartcondo';
@@ -40,6 +41,7 @@ const databaseUrl =
     DevicesModule,
     AccessKeysModule,
     EwelinkModule,
+    CommonModule,
   ],
   controllers: [SwitchController],
   providers: [EwelinkService],

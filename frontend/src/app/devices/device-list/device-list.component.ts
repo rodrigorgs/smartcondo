@@ -15,6 +15,7 @@ export class DeviceListComponent {
   devices: Array<any> = [];
   condo: any = {};
   key: string = '';
+  isAdmin: boolean = false;
 
   constructor(
     private condoService: CondoService,

@@ -31,7 +31,9 @@ export class AccessKeysController {
   @ApiOperation({ summary: 'Create access key' })
   async create(@Req() req, @Param('condoSlug') condoSlug: string, @Body() createAccessKeyDto: CreateAccessKeyDto) {
     const user = await this.usersService.findOne(req.user.sub);
-
+    if (!createAccessKeyDto.userId) {
+      createAccessKeyDto.userId = user.id;
+    }
     if (!user.isAdmin && createAccessKeyDto.userId !== user.id) {
       throw new ForbiddenException(
         'You can only create access keys for yourself',

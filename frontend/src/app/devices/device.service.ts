@@ -20,4 +20,8 @@ export class DeviceService {
   activateDevice(condoSlug: string, deviceSlug: string, accessKey: string = "") {
     return this.http.post(`/api/condos/${condoSlug}/devices/${deviceSlug}/state?key=${accessKey}`, {});
   }
+
+  createDevice(condoSlug: string, device: any) {
+    return this.http.post(`/api/condos/${condoSlug}/devices`, device);
+  }
 }

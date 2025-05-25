@@ -1,0 +1,16 @@
+<h2>Add Device</h2>
+<form (ngSubmit)="addDevice()" #deviceForm="ngForm">
+  <div>
+    <label for="identifier">Identifier:</label>
+    <input id="identifier" name="identifier" [(ngModel)]="device.identifier" required />
+  </div>
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" name="name" [(ngModel)]="device.name" required />
+  </div>
+  <div>
+    <label for="slug">Slug:</label>
+    <input id="slug" name="slug" [(ngModel)]="device.slug" required />
+  </div>
+  <button type="submit" [disabled]="deviceForm.invalid">Add Device</button>
+</form>

@@ -43,6 +43,8 @@ export class DevicesController {
   }
 
   @Get()
+  @UseGuards(OptionalJwtAuthGuard)
+  @Public()
   @ApiOperation({ summary: 'List devices' })
   @ApiParam({ name: 'key', required: false })
   async findAll(
@@ -51,6 +53,7 @@ export class DevicesController {
     @Query('key') keyString?: string,
   ) {
     const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
+    console.log('accessKey', entities.accessKey);
     if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
       return this.devicesService.findByCondoSlug(condoSlug);
     } else {
@@ -76,6 +79,7 @@ export class DevicesController {
   @ApiOperation({ summary: 'Get device info' })
   async findOne(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {
     const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
+    console.log('accessKey', entities.accessKey);
     if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
       const device = await this.devicesService.findOneByCondoSlugAndSlug(condoSlug, deviceSlug);
       return device;

@@ -59,10 +59,10 @@ export class CondosController {
     @Param('slug') slug: string,
     @CurrentUser() currentUser: User | null,
   ) {
-    const { condoToUser } = await this.getEntities(slug, currentUser);
-    if (!condoToUser && !currentUser?.isAdmin) {
-      throw new ForbiddenException();
-    }
+    // const { condoToUser } = await this.getEntities(slug, currentUser);
+    // if (!condoToUser && !currentUser?.isAdmin) {
+    //   throw new ForbiddenException();
+    // }
 
     return this.condosService.findOneBySlug(slug);
   }

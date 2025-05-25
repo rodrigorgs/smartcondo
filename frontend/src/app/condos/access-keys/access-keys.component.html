@@ -1,0 +1,38 @@
+<div *ngIf="!condoSlug">
+  <p>Loading...</p>
+</div>
+
+<div *ngIf="condoSlug">
+  <h2>Access Keys</h2>
+  <div *ngIf="accessKeys && accessKeys.length > 0; else noKeys">
+    <ul>
+      <li *ngFor="let key of accessKeys">
+        {{ key.description }} -
+        {{ key.keyString }} - 
+        Validade: {{ key.validFrom | date:'dd/MM/yyyy hh:mm' }} - {{ key.validTo | date:'dd/MM/yyyy hh:mm' }}
+        <button (click)="confirmDeleteKey(key.keyString)" type="button">Delete</button>
+      </li>
+    </ul>
+  </div>
+  <ng-template #noKeys>
+    <p>No access keys found</p>
+  </ng-template>
+
+  <h3>Create New Access Key</h3>
+  <form (ngSubmit)="createAccessKey()" #keyForm="ngForm">
+    <label>
+      Description:
+      <input name="description" [(ngModel)]="newKey.description" required />
+    </label>
+    <label>
+      Data inicial:
+      <input name="validFrom" type="datetime-local" [(ngModel)]="newKey.validFrom" />
+    </label>
+    <label>
+      Data final:
+      <input name="validTo" type="datetime-local" [(ngModel)]="newKey.validTo" />
+    </label>
+
+    <button type="submit" [disabled]="keyForm.invalid">Create</button>
+  </form>
+</div>

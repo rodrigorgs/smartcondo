@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateAccessKeyDto {
   @ApiProperty()
-  userId: number;
+  userId?: number;
   @ApiProperty()
   description?: string;
   @ApiProperty()

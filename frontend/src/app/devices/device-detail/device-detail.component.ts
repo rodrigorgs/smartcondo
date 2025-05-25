@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CondoService } from '../../condos/condo.service';
 import { DeviceService } from '../device.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-device-detail',
@@ -19,7 +19,8 @@ export class DeviceDetailComponent {
   constructor(
     private condoService: CondoService,
     private deviceService: DeviceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.loadDevice();
   }
@@ -31,11 +32,25 @@ export class DeviceDetailComponent {
     if (!condoSlug || !deviceSlug) {
       this.device = { name: 'Not found' };
     } else {
-      this.deviceService.getDevice(condoSlug, deviceSlug, this.key).subscribe((device: any) => {
-        this.device = device;
+      this.deviceService.getDevice(condoSlug, deviceSlug, this.key).subscribe({
+        next: (device: any) => {
+          this.device = device;
+        },
+        error: (err) => {
+          if (err.status === 403) {
+            this.router.navigate(['/forbidden']);
+          }
+        }
       });
-      this.condoService.getCondoBySlug(condoSlug).subscribe((condo: any) => {
-        this.condo = condo;
+      this.condoService.getCondoBySlug(condoSlug).subscribe({
+        next: (condo: any) => {
+          this.condo = condo;
+        },
+        error: (err) => {
+          if (err.status === 403) {
+            this.router.navigate(['/forbidden']);
+          }
+        }
       });
     }
   }

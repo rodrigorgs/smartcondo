@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { CreateAccessKeyDto } from './dto/create-access-key.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccessKey } from './entities/access-key.entity';
@@ -13,11 +13,15 @@ export class AccessKeysService {
   ) { }
 
   async create(condoSlug: string, createAccessKeyDto: CreateAccessKeyDto) {
-    const keyString = Math.random().toString(36).substring(2, 15);
     const condo = await this.condosService.findOneBySlug(condoSlug);
     if (!condo) {
       throw new HttpException('Condo not found', 404);
     }
+    if (!createAccessKeyDto.userId) {
+      throw new BadRequestException('User ID is required');
+    }
+
+    const keyString = Math.random().toString(36).substring(2, 15);
     const accessKey = this.accessKeysRepository.create({ ...createAccessKeyDto, keyString, condo: { id: condo.id } });
     return this.accessKeysRepository.save(accessKey);
   }

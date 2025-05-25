@@ -12,12 +12,14 @@
   </ul>
 
   <h2>Devices</h2>
-  <a [routerLink]="['/condos', condo.slug, 'devices']" class="btn btn-primary">List devices</a>
+  <a [routerLink]="['/condos', condo.slug, 'devices']" [queryParams]="{ key: key }" class="btn btn-primary">List devices</a>
 
   <!-- <h2>Users</h2>
   <a [routerLink]="['/condos', condo.slug, 'users']" class="btn btn-primary">List users</a> -->
 
-  <h2>Access Keys</h2>
-  <a [routerLink]="['/condos', condo.slug, 'access-keys']" class="btn btn-primary">Manage access keys</a>
+  <div *ngIf="!key">
+    <h2>Access Keys</h2>
+    <a [routerLink]="['/condos', condo.slug, 'access-keys']" class="btn btn-primary">Manage access keys</a>
+  </div>
 </div>
 

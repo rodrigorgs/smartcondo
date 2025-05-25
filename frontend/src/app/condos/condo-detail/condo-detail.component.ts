@@ -12,11 +12,13 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 })
 export class CondoDetailComponent {
   condo: any = {};
+  key: string | null = null;
 
   constructor(private condoService: CondoService,
     private route: ActivatedRoute
   ) {
     this.loadCondo();
+    this.key = this.route.snapshot.queryParamMap.get('key');
   }
 
   loadCondo() {

@@ -90,6 +90,24 @@
     font-size: 1rem;
   }
 
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+  }
+
+  .user-picture {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+
+  .user-name {
+    color: var(--gray-900);
+    font-weight: 500;
+  }
+
   .content {
     display: flex;
     justify-content: space-around;
@@ -116,7 +134,11 @@
 
 <main class="main">
   <div class="header" *ngIf="isLoggedIn()">
-    <button class="logout-btn" (click)="logout()">Logout</button>
+    <div class="user-info" *ngIf="currentUser">
+      <img *ngIf="currentUser.picture" [src]="currentUser.picture" alt="User picture" class="user-picture" />
+      <span class="user-name">{{ currentUser.givenName || currentUser.email }}</span>
+      <a class="" href="#" (click)="logout(); $event.preventDefault()">(Sair)</a>
+    </div>
   </div>
   <div class="content">
     <router-outlet></router-outlet>

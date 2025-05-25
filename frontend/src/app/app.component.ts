@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
+import { jwtDecode } from "jwt-decode";
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,24 @@ import { RouterOutlet, Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'SmartCondo';
+  currentUser: any = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.setCurrentUserFromToken();
+  }
+
+  setCurrentUserFromToken() {
+    const token = this.getCookie('access_token');
+    if (token) {
+      try {
+        this.currentUser = jwtDecode(token);
+      } catch (e) {
+        this.currentUser = null;
+      }
+    } else {
+      this.currentUser = null;
+    }
+  }
 
   isLoggedIn(): boolean {
     return !!(this.getCookie('access_token'));
@@ -19,6 +36,7 @@ export class AppComponent {
 
   logout() {
     document.cookie = 'access_token=; Max-Age=0; path=/;';
+    this.currentUser = null;
     this.router.navigate(['/']);
   }
 

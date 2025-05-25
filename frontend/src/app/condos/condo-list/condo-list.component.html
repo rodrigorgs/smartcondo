@@ -1,9 +1,17 @@
-<h1>Condos</h1>
+<h1>Seus Condomínios</h1>
 
-<ul>
-  <li *ngFor="let condo of condos">
-    <a [routerLink]="['/condos', condo.slug]">
-      {{ condo.name }} ({{ condo.slug }})
-    </a>
-  </li>
-</ul>
+<div class="list-container">
+  <ng-container *ngIf="condos && condos.length > 0; else noCondos">
+    <ul class="list">
+      <li *ngFor="let condo of condos" class="list-item">
+        <a [routerLink]="['/condos', condo.slug]" class="condo-link">
+          <span class="condo-name">{{ condo.name }}</span>
+          <span class="condo-slug">({{ condo.slug }})</span>
+        </a>
+      </li>
+    </ul>
+  </ng-container>
+  <ng-template #noCondos>
+    <div class="no-condos">Você não tem nenhum condomínio cadastrado.</div>
+  </ng-template>
+</div>

@@ -1,10 +1,21 @@
-<ul>
-  <li *ngFor="let device of devices">
-    <a [routerLink]="['/condos', condo.slug, 'devices', device.slug]" [queryParams]="{ key: key }">
-      {{ device.name }} ({{ device.slug }})
-    </a>
-  </li>
-  <!-- <li>
-    <a [routerLink]="['/condos', condo.slug, 'devices', 'add']">Add Device</a>
-  </li> -->
-</ul>
+<h1>{{ condo.name }}</h1>
+
+<h2>Dispositivos</h2>
+
+<div class="list-container">
+  <ng-container *ngIf="devices && devices.length > 0; else noDevices">
+    <ul class="list">
+      <li *ngFor="let device of devices" class="list-item">
+        <a [routerLink]="['/condos', condo.slug, 'devices', device.slug]" [queryParams]="{ key: key }" class="link">
+          {{ device.name }} ({{ device.slug }})
+        </a>
+      </li>
+      <!-- <li>
+        <a [routerLink]="['/condos', condo.slug, 'devices', 'add']">Add Device</a>
+      </li> -->
+    </ul>
+  </ng-container>
+  <ng-template #noDevices>
+    <div class="empty-list">O condomínio não possui nenhum dispositivo cadastrado.</div>
+  </ng-template>
+</div>

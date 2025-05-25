@@ -7,18 +7,22 @@ import { AccessKeysService } from './access-keys.service';
   templateUrl: './access-keys.component.html',
 })
 export class AccessKeysComponent implements OnInit {
+  condo: any = {};
   condoSlug = '';
   accessKeys: any[] = [];
   newKey: any = { description: '', validFrom: '', validTo: '' };
 
   constructor(
     private route: ActivatedRoute,
-    private accessKeysService: AccessKeysService
+    private accessKeysService: AccessKeysService,
   ) {}
 
   ngOnInit() {
     this.condoSlug = this.route.snapshot.paramMap.get('condoSlug') || '';
     this.loadAccessKeys();
+    // this.condosService.getCondo(this.condoSlug).subscribe(condo => {
+    //   this.condo = condo;
+    // });
   }
 
   loadAccessKeys() {
@@ -47,7 +51,7 @@ export class AccessKeysComponent implements OnInit {
   }
 
   confirmDeleteKey(keyString: string) {
-    if (confirm('Are you sure you want to delete this access key?')) {
+    if (confirm('Tem certeza de que deseja remover esta chave de acesso?')) {
       this.deleteAccessKey(keyString);
     }
   }

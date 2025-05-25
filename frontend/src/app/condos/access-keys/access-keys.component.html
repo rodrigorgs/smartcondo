@@ -3,22 +3,36 @@
 </div>
 
 <div *ngIf="condoSlug">
-  <h2>Access Keys</h2>
+  <h2>Chaves de Acesso</h2>
   <div *ngIf="accessKeys && accessKeys.length > 0; else noKeys">
-    <ul>
-      <li *ngFor="let key of accessKeys">
-        {{ key.description }} -
-        {{ key.keyString }} - 
-        Validade: {{ key.validFrom | date:'dd/MM/yyyy hh:mm' }} - {{ key.validTo | date:'dd/MM/yyyy hh:mm' }}
-        <button (click)="confirmDeleteKey(key.keyString)" type="button">Delete</button>
-      </li>
-    </ul>
+    <table>
+      <thead>
+      <tr>
+        <th>Descrição</th>
+        <th>Chave</th>
+        <th>Início</th>
+        <th>Fim</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let key of accessKeys">
+        <td>{{ key.description }}</td>
+        <td>{{ key.keyString }}</td>
+        <td>{{ key.validFrom | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ key.validTo | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+        <button (click)="confirmDeleteKey(key.keyString)" type="button">Remover</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
   <ng-template #noKeys>
-    <p>No access keys found</p>
+    <p>Nenhuma chave de acesso cadastrada.</p>
   </ng-template>
 
-  <h3>Create New Access Key</h3>
+  <h2>Criar Nova Chave de Acesso</h2>
   <form (ngSubmit)="createAccessKey()" #keyForm="ngForm">
     <label>
       Description:

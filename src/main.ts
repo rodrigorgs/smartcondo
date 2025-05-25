@@ -5,17 +5,12 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 import { CurrentUserInterceptor } from 'common/current-user.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { RedocModule } from 'nestjs-redoc';
 
 const port = process.env.PORT || 3000;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
-  app.setGlobalPrefix('api', { exclude: ['@mar-azul/portao'] });
-  app.use(cookieParser());
-  app.useGlobalInterceptors(app.get(CurrentUserInterceptor));
 
   // Swagger configuration
   const config = new DocumentBuilder()
@@ -25,7 +20,25 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+
+  // Redoc setup
+  await RedocModule.setup('/api/docs', app, document, {
+    title: 'SmartCondo API Docs',
+    logo: {
+      // url: '',
+      backgroundColor: '#F0F0F0',
+      altText: 'SmartCondo',
+    },
+    sortPropsAlphabetically: true,
+    hideDownloadButton: false,
+    hideHostname: false,
+  });
+
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
+  app.setGlobalPrefix('api', { exclude: ['@mar-azul/portao'] });
+  app.use(cookieParser());
+  app.useGlobalInterceptors(app.get(CurrentUserInterceptor));
 
   await app.listen(port);
   console.log(`App started. Listening on port ${port}`);

@@ -46,6 +46,7 @@
     "cookie-parser": "^1.4.6",
     "ewelink-api-next": "^1.0.4",
     "hbs": "^4.2.0",
+    "nestjs-redoc": "^2.2.2",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-jwt": "^4.0.1",

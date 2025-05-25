@@ -5,7 +5,7 @@
 <div *ngIf="condoSlug">
   <h2>Chaves de Acesso</h2>
   <div *ngIf="accessKeys && accessKeys.length > 0; else noKeys">
-    <table>
+    <table class="table access-keys-table">
       <thead>
       <tr>
         <th>Descrição</th>
@@ -22,7 +22,7 @@
         <td>{{ key.validFrom | date:'dd/MM/yyyy HH:mm' }}</td>
         <td>{{ key.validTo | date:'dd/MM/yyyy HH:mm' }}</td>
         <td>
-        <button (click)="confirmDeleteKey(key.keyString)" type="button">Remover</button>
+        <button class="btn btn-danger" (click)="confirmDeleteKey(key.keyString)" type="button">Remover</button>
         </td>
       </tr>
       </tbody>

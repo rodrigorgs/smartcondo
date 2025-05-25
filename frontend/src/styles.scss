@@ -68,6 +68,82 @@ h1 {
   padding: 1.5rem 0;
 }
 
+/* Professional table and button styles for global use */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 8px 0 rgba(60, 30, 90, 0.06);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.table th, .table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.table th {
+  background: var(--gray-400, #f3f3f7);
+  color: var(--gray-900, #222);
+  font-weight: 600;
+  font-size: 1rem;
+  border-bottom: 2px solid var(--gray-400, #e0e0e0);
+}
+.table tr {
+  transition: background 0.15s;
+}
+.table tbody tr:hover {
+  background: var(--gray-400, #f7f7fa);
+}
+.table td {
+  border-bottom: 1px solid var(--gray-400, #e0e0e0);
+  font-size: 0.98rem;
+  color: var(--gray-900, #222);
+}
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Button styles */
+.btn {
+  display: inline-block;
+  padding: 0.35rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  background: var(--gray-400, #e0e0e0);
+  color: var(--gray-900, #222);
+}
+.btn:hover {
+  background: var(--gray-700, #888);
+  color: #fff;
+}
+.btn-danger {
+  background: var(--hot-red, #e74c3c);
+  color: #fff;
+}
+.btn-danger:hover {
+  background: #b91c1c;
+  color: #fff;
+}
+
+/* Responsive table */
+@media (max-width: 700px) {
+  .table, .access-keys-table {
+    font-size: 0.95rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .table th, .table td {
+    padding: 0.5rem 0.5rem;
+  }
+}
+
 @media (max-width: 700px) {
   .list-container {
     max-width: 98vw;

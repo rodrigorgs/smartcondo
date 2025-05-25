@@ -2,15 +2,29 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req, ForbiddenExcept
 import { UsersService } from './users.service';
 import { CurrentUser } from 'common/current-user.decorator';
 import { User } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.userService.create(createUserDto);
-  // }
+  @Post()
+  @ApiOperation({ summary: 'Create user' })
+  @ApiBody({
+    description: 'Create user',
+    type: CreateUserDto,
+  })
+  create(
+    @Body() createUserDto: CreateUserDto,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    if (!currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+    return this.userService.create(createUserDto);
+  }
 
   @Get()
   findAll(@CurrentUser() currentUser: User | null) {

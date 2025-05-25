@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Condo } from './entities/condo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CondoToUser } from './entities/condo-to-user.entity';
+import { AddUserToCondoDto } from './dto/add-user-to-condo.dto';
 
 @Injectable()
 export class CondosService {
@@ -40,6 +41,13 @@ export class CondosService {
         condo: { slug: condoSlug }
       },
       relations: ['condo', 'user']
+    });
+  }
+
+  findUsers(condoId: number) {
+    return this.condoToUsersRepository.find({
+      where: { condo: { id: condoId } },
+      relations: ['user'],
     });
   }
 

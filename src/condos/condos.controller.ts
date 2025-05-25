@@ -14,12 +14,33 @@ import { OptionalJwtAuthGuard } from 'auth/guard/optional-jwt.guard';
 import { Public } from 'auth/public.decorator';
 import { CurrentUser } from 'common/current-user.decorator';
 import { User } from 'users/entities/user.entity';
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AddUserToCondoDto } from './dto/add-user-to-condo.dto';
 
+@ApiTags('Condos')
 @Controller('condos')
 export class CondosController {
   constructor(private readonly condosService: CondosService) {}
 
+  async getEntities(condoSlug: string, user: User | null) {
+    const condo = await this.condosService.findOneBySlug(condoSlug);
+    const condoToUser = user
+      ? await this.condosService.findCondoToUser(+condo.id, user.id)
+      : null;
+    return { condo, condoToUser };
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'List all condos' })
+  findAll(@CurrentUser() currentUser: User | null) {
+    if (!currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+    return this.condosService.findAll();
+  }
+
   @Post()
+  @ApiOperation({ summary: 'Create condo' })
   create(
     @Body() createCondoDto: CreateCondoDto,
     @CurrentUser() currentUser: User | null,
@@ -30,25 +51,15 @@ export class CondosController {
     return this.condosService.create(createCondoDto);
   }
 
-  @Get()
-  findAll(@CurrentUser() currentUser: User | null) {
-    if (!currentUser?.isAdmin) {
-      throw new ForbiddenException();
-    }
-    return this.condosService.findAll();
-  }
-
   @Get(':slug')
+  @ApiOperation({ summary: 'Get one condo' })
   @UseGuards(OptionalJwtAuthGuard)
   @Public()
   async findOneBySlug(
     @Param('slug') slug: string,
     @CurrentUser() currentUser: User | null,
   ) {
-    const condoToUser = await this.condosService.findCondoToUserBySlug(
-      slug,
-      currentUser?.id,
-    );
+    const { condoToUser } = await this.getEntities(slug, currentUser);
     if (!condoToUser && !currentUser?.isAdmin) {
       throw new ForbiddenException();
     }
@@ -61,57 +72,61 @@ export class CondosController {
   //   return this.condosService.findOne(+id);
   // }
 
+  @Get(':slug/users')
+  @ApiOperation({ summary: 'Get users in condo' })
+  async findUsers(
+    @Param('slug') slug: string,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    const { condo, condoToUser } = await this.getEntities(slug, currentUser);
+    if (!condoToUser?.isManager && !currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+    return this.condosService.findUsers(condo.id);
+  }
+  
+  @Get(':slug/users/:userId')
+  @ApiOperation({ summary: 'Get info about user in condo' })
+  async findCondoToUser(
+    @Param('slug') slug: string,
+    @Param('userId') userId: string,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    const { condo, condoToUser } = await this.getEntities(slug, currentUser);
+    if (!condoToUser?.isManager && !currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+    return this.condosService.findCondoToUser(+condo.id, +userId);
+  }
+
   @Post(':slug/users/:userId')
+  @ApiOperation({ summary: 'Add user to condo' })
   async addUser(
     @Param('slug') slug: string,
     @Param('userId') userId: string,
     @Body() body: AddUserToCondoDto,
     @CurrentUser() currentUser: User | null,
   ) {
-    const condoToUser = await this.condosService.findCondoToUserBySlug(
-      slug,
-      currentUser?.id,
-    );
+    const { condo, condoToUser } = await this.getEntities(slug, currentUser);
     if (!condoToUser?.isManager && !currentUser?.isAdmin) {
       throw new ForbiddenException();
     }
-    return this.condosService.addOrUpdateUser(
-      +condoToUser.condo.id,
-      +userId,
-      body,
-    );
+    return this.condosService.addOrUpdateUser(+condo.id, +userId, body);
   }
 
-  @Get(':slug/users/:userId')
-  async findCondoToUser(
-    @Param('slug') slug: string,
-    @Param('userId') userId: string,
-    @CurrentUser() currentUser: User | null,
-  ) {
-    const condoToUser = await this.condosService.findCondoToUserBySlug(
-      slug,
-      currentUser?.id,
-    );
-    if (!condoToUser?.isManager && !currentUser?.isAdmin) {
-      throw new ForbiddenException();
-    }
-    return this.condosService.findCondoToUser(+condoToUser.condo.id, +userId);
-  }
 
   @Delete(':slug/users/:userId')
+  @ApiOperation({ summary: 'Remove user from condo' })
   async removeUser(
     @Param('slug') slug: string,
     @Param('userId') userId: string,
     @CurrentUser() currentUser: User | null,
   ) {
-    const condoToUser = await this.condosService.findCondoToUserBySlug(
-      slug,
-      currentUser?.id,
-    );
+    const { condo, condoToUser } = await this.getEntities(slug, currentUser);
     if (!condoToUser?.isManager && !currentUser?.isAdmin) {
       throw new ForbiddenException();
     }
-    return this.condosService.removeUser(+condoToUser.condo.id, +userId);
+    return this.condosService.removeUser(+condo.id, +userId);
   }
 
   // @Patch(':id')

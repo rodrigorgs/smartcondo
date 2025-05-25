@@ -12,8 +12,10 @@ import { AccessKey } from 'access-keys/entities/access-key.entity';
 import { Public } from 'auth/public.decorator';
 import { OptionalJwtAuthGuard } from 'auth/guard/optional-jwt.guard';
 import { DeviceActivityService } from './device-activity.service';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @Controller('condos/:condoSlug/devices')
+@ApiTags('Devices')
 export class DevicesController {
   constructor(
     private readonly devicesService: DevicesService,
@@ -40,7 +42,24 @@ export class DevicesController {
     return { user, condo, condoToUser, accessKey };
   }
 
+  @Get()
+  @ApiOperation({ summary: 'List devices' })
+  @ApiParam({ name: 'key', required: false })
+  async findAll(
+    @Req() req,
+    @Param('condoSlug') condoSlug: string,
+    @Query('key') keyString?: string,
+  ) {
+    const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
+    if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
+      return this.devicesService.findByCondoSlug(condoSlug);
+    } else {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+  }
+
   @Post()
+  @ApiOperation({ summary: 'Create device' })
   async create(@Req() req, @Param('condoSlug') condoSlug: string, @Body() createDeviceDto: CreateDeviceDto) {
     console.log(req);
     const entities = await this.getEntities(condoSlug, req.user?.sub);
@@ -51,11 +70,15 @@ export class DevicesController {
     }
   }
 
-  @Get()
-  async findAll(@Req() req, @Param('condoSlug') condoSlug: string, @Query('key') keyString: string) {
+  @Get(':deviceSlug')
+  @UseGuards(OptionalJwtAuthGuard)
+  @Public()
+  @ApiOperation({ summary: 'Get device info' })
+  async findOne(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {
     const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
     if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
-      return this.devicesService.findByCondoSlug(condoSlug);
+      const device = await this.devicesService.findOneByCondoSlugAndSlug(condoSlug, deviceSlug);
+      return device;
     } else {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
@@ -64,6 +87,8 @@ export class DevicesController {
   @Get(':deviceSlug/info')
   @UseGuards(OptionalJwtAuthGuard)
   @Public()
+  @ApiOperation({ summary: 'Get device info' })
+  @ApiParam({ name: 'key', required: false })
   async getInfo(
     @Req() req,
     @Param('condoSlug') condoSlug: string,
@@ -90,25 +115,13 @@ export class DevicesController {
     }
   }
 
-  @Get(':deviceSlug')
-  @UseGuards(OptionalJwtAuthGuard)
-  @Public()
-  async findOne(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {
-    const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);
-    if (entities.accessKey?.isValid() || entities.user?.isAdmin || entities.condoToUser != null) {
-      const device = await this.devicesService.findOneByCondoSlugAndSlug(condoSlug, deviceSlug);
-      return device;
-    } else {
-      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-    }
-  }
-
   /**
    * Update device state, e.g., turn a lamp on or off.
    */
   @Post(':deviceSlug/state')
   @UseGuards(OptionalJwtAuthGuard)
   @Public()
+  @ApiOperation({ summary: 'Update device state' })
   // TODO add body with info on the state update
   async updateState(@Req() req, @Param('condoSlug') condoSlug: string, @Param('deviceSlug') deviceSlug: string, @Query('key') keyString: string) {
     const entities = await this.getEntities(condoSlug, req.user?.sub, keyString);

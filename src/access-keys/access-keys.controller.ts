@@ -3,8 +3,10 @@ import { AccessKeysService } from './access-keys.service';
 import { CreateAccessKeyDto } from './dto/create-access-key.dto';
 import { CondosService } from 'condos/condos.service';
 import { UsersService } from 'users/users.service';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('condos/:condoSlug/access-keys')
+@ApiTags('Access Keys')
 export class AccessKeysController {
   constructor(
     private readonly accessKeysService: AccessKeysService,
@@ -12,17 +14,8 @@ export class AccessKeysController {
     private readonly usersService: UsersService,
   ) {}
 
-  @Post()
-  async create(@Req() req, @Param('condoSlug') condoSlug: string, @Body() createAccessKeyDto: CreateAccessKeyDto) {
-    const user = await this.usersService.findOne(req.user.sub);
-    if (user?.isAdmin || this.condosService.findCondoToUserBySlug(condoSlug, user.id)) {
-      return this.accessKeysService.create(condoSlug, createAccessKeyDto);
-    } else {
-      throw new ForbiddenException();
-    }
-  }
-
   @Get()
+  @ApiOperation({ summary: 'List access keys' })
   async findAll(@Req() req, @Param('condoSlug') condoSlug: string) {
     const user = await this.usersService.findOne(req.user.sub);
     if (user.isAdmin) {
@@ -34,6 +27,44 @@ export class AccessKeysController {
     }
   }
 
+  @Post()
+  @ApiOperation({ summary: 'Create access key' })
+  async create(@Req() req, @Param('condoSlug') condoSlug: string, @Body() createAccessKeyDto: CreateAccessKeyDto) {
+    const user = await this.usersService.findOne(req.user.sub);
+
+    if (!user.isAdmin && createAccessKeyDto.userId !== user.id) {
+      throw new ForbiddenException(
+        'You can only create access keys for yourself',
+      );
+    }
+
+    if (user?.isAdmin || this.condosService.findCondoToUserBySlug(condoSlug, user.id)) {
+      return this.accessKeysService.create(condoSlug, createAccessKeyDto);
+    } else {
+      throw new ForbiddenException();
+    }
+  }
+
+  @Delete(':key')
+  @ApiOperation({ summary: 'Delete access key' })
+  async remove(
+    @Req() req,
+    @Param('condoSlug') condoSlug: string,
+    @Param('key') key: string,
+  ) {
+    const user = await this.usersService.findOne(req.user.sub);
+    const accessKey = await this.accessKeysService.findByCondoSlugAndKey(condoSlug, key);
+
+    if (!accessKey) {
+      throw new ForbiddenException('Access key not found');
+    }
+
+    if (user.isAdmin || (accessKey.user && accessKey.user.id === user.id)) {
+      return this.accessKeysService.remove(accessKey.id);
+    } else {
+      throw new ForbiddenException();
+    }
+  }
   // TODO
   // @Get(':id')
   // findOne(@Param('id') id: string) {

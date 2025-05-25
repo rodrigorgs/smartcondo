@@ -20,6 +20,16 @@ export class AccessKeysService {
     if (!createAccessKeyDto.userId) {
       throw new BadRequestException('User ID is required');
     }
+    if (createAccessKeyDto.validFrom && createAccessKeyDto.validTo) {
+      if (
+        new Date(createAccessKeyDto.validFrom) >=
+        new Date(createAccessKeyDto.validTo)
+      ) {
+        throw new BadRequestException(
+          'ValidFrom date must be before validTo date',
+        );
+      }
+    }
 
     const keyString = Math.random().toString(36).substring(2, 15);
     const accessKey = this.accessKeysRepository.create({ ...createAccessKeyDto, keyString, condo: { id: condo.id } });

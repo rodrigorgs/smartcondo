@@ -20,4 +20,8 @@ export class CondoService {
     console.log('Service creating condo', condo);
     return this.http.post(`/api/condos`, condo);
   }
+
+  getCondoUsers(condoSlug: string) {
+    return this.http.get(`/api/condos/${condoSlug}/users`);
+  }
 }

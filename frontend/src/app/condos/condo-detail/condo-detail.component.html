@@ -15,14 +15,15 @@
       <li class="list-item">
         <a [routerLink]="['/condos', condo.slug, 'devices']" [queryParams]="{ key: key }" class="link">Listar Dispositivos</a>
       </li>
-      <li class="list-item">
-        <a *ngIf="!key" [routerLink]="['/condos', condo.slug, 'access-keys']" class="link">Gerenciar Chaves de Acesso</a>
+      <li class="list-item" *ngIf="!key">
+        <a [routerLink]="['/condos', condo.slug, 'access-keys']" class="link">Gerenciar Chaves de Acesso</a>
+      </li>
+      <li class="list-item" *ngIf="false">
+        <a [routerLink]="['/condos', condo.slug, 'users']" class="link">Gerenciar usuários</a>
       </li>
     </ul>
   </div>
 
   
-  <!-- <h2>Users</h2>
-  <a [routerLink]="['/condos', condo.slug, 'users']" class="btn btn-primary">List users</a> -->
 </div>
 

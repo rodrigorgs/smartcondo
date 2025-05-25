@@ -69,6 +69,15 @@ export class CondosService {
     return this.condoToUsersRepository.delete({ condo: { id: condoId }, user: { id: userId } });
   }
 
+  async findByUser(userId: number) {
+    // Return all condos associated to the user via condoToUser
+    const condoToUsers = await this.condoToUsersRepository.find({
+      where: { user: { id: userId } },
+      relations: ['condo'],
+    });
+    return condoToUsers.map((ctu) => ctu.condo);
+  }
+
   // update(id: number, updateCondoDto: UpdateCondoDto) {
   //   return `This action updates a #${id} condo`;
   // }

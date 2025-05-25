@@ -32,11 +32,14 @@ export class CondosController {
 
   @Get()
   @ApiOperation({ summary: 'List all condos' })
-  findAll(@CurrentUser() currentUser: User | null) {
-    if (!currentUser?.isAdmin) {
-      throw new ForbiddenException();
+  async findAll(@CurrentUser() currentUser: User | null) {
+    if (currentUser?.isAdmin) {
+      return this.condosService.findAll();
     }
-    return this.condosService.findAll();
+    if (currentUser) {
+      return this.condosService.findByUser(currentUser.id);
+    }
+    throw new ForbiddenException();
   }
 
   @Post()

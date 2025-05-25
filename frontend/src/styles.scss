@@ -189,6 +189,14 @@ h1 {
   color: #fff;
 }
 
+/* Form error message style */
+.form-error {
+  color: var(--hot-red, #e74c3c);
+  font-size: 0.98rem;
+  margin-top: 0.2rem;
+  font-weight: 500;
+}
+
 /* Responsive table */
 @media (max-width: 700px) {
   .table, .access-keys-table {

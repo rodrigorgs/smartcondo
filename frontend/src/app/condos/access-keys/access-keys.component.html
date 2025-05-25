@@ -45,7 +45,10 @@
     <div class="form-group">
       <label for="validTo">Data final:</label>
       <input id="validTo" name="validTo" type="datetime-local" [(ngModel)]="newKey.validTo" class="form-control" />
+      <div *ngIf="newKey.validFrom && newKey.validTo && newKey.validTo <= newKey.validFrom" class="form-error">
+        Data final deve ser posterior à data inicial.
+      </div>
     </div>
-    <button type="submit" [disabled]="keyForm.invalid" class="btn btn-primary">Criar</button>
+    <button type="submit" [disabled]="keyForm.invalid || (newKey.validFrom && newKey.validTo && newKey.validTo <= newKey.validFrom)" class="btn btn-primary">Criar</button>
   </form>
 </div>

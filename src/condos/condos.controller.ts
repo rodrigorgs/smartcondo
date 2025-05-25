@@ -31,7 +31,9 @@ export class CondosController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'List all condos' })
+  @ApiOperation({
+    summary: 'List all condos that the current user has access to',
+  })
   async findAll(@CurrentUser() currentUser: User | null) {
     if (currentUser?.isAdmin) {
       return this.condosService.findAll();

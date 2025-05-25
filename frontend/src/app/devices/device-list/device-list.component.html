@@ -7,7 +7,7 @@
     <ul class="list">
       <li *ngFor="let device of devices" class="list-item">
         <a [routerLink]="['/condos', condo.slug, 'devices', device.slug]" [queryParams]="{ key: key }" class="link">
-          {{ device.name }} ({{ device.slug }})
+          {{ device.name }}
         </a>
       </li>
       <!-- <li>

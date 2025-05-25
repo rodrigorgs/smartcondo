@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DeviceService } from '../device.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CondoService } from '../../condos/condo.service';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +20,8 @@ export class DeviceListComponent {
   constructor(
     private condoService: CondoService,
     private deviceService: DeviceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.loadDevices();
   }
@@ -31,9 +32,15 @@ export class DeviceListComponent {
     if (!slug) {
       this.devices = [{ name: 'Not found' }];
     } else {
-      this.deviceService.getDevices(slug, this.key).subscribe((devices: any) => {
-        this.devices = devices;
-      });
+      this.deviceService.getDevices(slug, this.key).subscribe(
+        { next: (devices: any) => { this.devices = devices; },
+        error: (err) => {
+          if (err.status === 403) {
+            this.router.navigate(['/forbidden']);
+          }
+        }
+       }
+      );
       this.condoService.getCondoBySlug(slug).subscribe((condo: any) => {
         this.condo = condo;
       });

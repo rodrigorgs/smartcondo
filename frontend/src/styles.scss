@@ -69,7 +69,7 @@ h1 {
 }
 
 /* Professional table and button styles for global use */
-.table {
+.table, .access-keys-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -200,13 +200,26 @@ h1 {
 /* Responsive table */
 @media (max-width: 700px) {
   .table, .access-keys-table {
-    font-size: 0.95rem;
     display: block;
+    width: 100vw;
+    min-width: 0;
+    margin-left: -2vw;
+    margin-right: -2vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
     overflow-x: auto;
     white-space: nowrap;
+    font-size: 0.95rem;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
   }
-  .table th, .table td {
+  .table th, .table td, .access-keys-table th, .access-keys-table td {
     padding: 0.5rem 0.5rem;
+    min-width: 110px;
+  }
+  .form, .access-key-form {
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    max-width: 98vw;
   }
 }
 

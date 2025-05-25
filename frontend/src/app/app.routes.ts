@@ -8,11 +8,13 @@ import { DeviceAddComponent } from './devices/device-add/device-add.component';
 import { AccessKeysComponent } from './condos/access-keys/access-keys.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
+import { CondoUsersComponent } from './condos/condo-users/condo-users.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'condos', component: CondoListComponent },
   { path: 'condos/:condoSlug', component: CondoDetailComponent },
+  { path: 'condos/:condoSlug/users', component: CondoUsersComponent },
   { path: 'condos/:condoSlug/devices', component: DeviceListComponent },
   { path: 'condos/:condoSlug/devices/add', component: DeviceAddComponent },
   { path: 'condos/:condoSlug/devices/:deviceSlug', component: DeviceDetailComponent },

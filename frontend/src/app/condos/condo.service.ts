@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class CondoService {
     return this.http.post(`/api/condos`, condo);
   }
 
-  getCondoUsers(condoSlug: string) {
+  getCondoUsers(condoSlug: string): Observable<any> {
     return this.http.get(`/api/condos/${condoSlug}/users`);
   }
 }

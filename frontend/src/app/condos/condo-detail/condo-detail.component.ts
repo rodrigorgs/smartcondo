@@ -29,12 +29,16 @@ export class CondoDetailComponent {
     this.loadCondo();
     this.userService.getCurrentUser().then(user => {
       this.user = user;
-      if (user?.isAdmin) {
-        this.canManage = true;
+      if (!user) {
         return;
       }
 
-      this.userService.getCondoToUser(this.route.snapshot.paramMap.get('condoSlug') || '', user?.id).subscribe((condoToUser: any) => {
+
+      if (user.isAdmin) {
+        this.canManage = true;
+        return;
+      }
+      this.userService.getCondoToUser(this.route.snapshot.paramMap.get('condoSlug') || '', user.id).subscribe((condoToUser: any) => {
         console.log('Condo for user:', condoToUser);
         if (condoToUser.isManager) {
           this.canManage = true;

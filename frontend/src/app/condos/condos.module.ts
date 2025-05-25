@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AccessKeysComponent } from './access-keys/access-keys.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CondoUsersComponent } from './condo-users/condo-users.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { RouterModule } from '@angular/router';
   declarations: [
     // ...other components
     AccessKeysComponent,
+    CondoUsersComponent,
   ],
   // ...other module properties
 })

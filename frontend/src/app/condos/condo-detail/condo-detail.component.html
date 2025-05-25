@@ -18,7 +18,7 @@
       <li class="list-item" *ngIf="!key">
         <a [routerLink]="['/condos', condo.slug, 'access-keys']" class="link">Gerenciar Chaves de Acesso</a>
       </li>
-      <li class="list-item" *ngIf="false">
+      <li class="list-item" *ngIf="canManage">
         <a [routerLink]="['/condos', condo.slug, 'users']" class="link">Gerenciar usuários</a>
       </li>
     </ul>

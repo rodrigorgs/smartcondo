@@ -1,0 +1,33 @@
+<!-- if not condo -->
+<div *ngIf="!condo">
+  <p>Loading...</p>
+</div>
+
+<!-- if condo -->
+<div *ngIf="condo">
+  <h1>{{ condo.name }}</h1>
+  <div class="list-container">
+    <h2>Usuários do Condomínio</h2>
+    <div *ngIf="condoToUsers && condoToUsers.length > 0; else noUsers">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Admin?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let info of condoToUsers">
+            <td>{{ info.user?.givenName }} {{ info.user?.familyName }}</td>
+            <td>{{ info.user?.email }}</td>
+            <td>{{ info.isManager ? 'Sim' : '' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noUsers>
+      <div class="empty-list">Nenhum usuário encontrado para este condomínio.</div>
+    </ng-template>
+  </div>
+</div>

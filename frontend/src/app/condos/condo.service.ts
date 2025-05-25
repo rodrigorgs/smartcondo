@@ -25,4 +25,8 @@ export class CondoService {
   getCondoUsers(condoSlug: string): Observable<any> {
     return this.http.get(`/api/condos/${condoSlug}/users`);
   }
+
+  removeCondoUser(condoSlug: string, userId: string) {
+    return this.http.delete(`/api/condos/${condoSlug}/users/${userId}`);
+  }
 }

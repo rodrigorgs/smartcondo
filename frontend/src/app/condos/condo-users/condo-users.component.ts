@@ -31,4 +31,11 @@ export class CondoUsersComponent implements OnInit {
       this.condoToUsers = condoToUsers;
     });
   }
+
+  removeUser(info: any) {
+    if (!confirm('Tem certeza que deseja remover este usuário do condomínio?')) return;
+    this.condoService.removeCondoUser(this.condoSlug, info.user?.id).subscribe(() => {
+      this.loadUsers();
+    });
+  }
 }

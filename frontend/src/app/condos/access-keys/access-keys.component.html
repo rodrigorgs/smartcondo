@@ -1,9 +1,12 @@
+<h1 *ngIf="condo?.name" class="condo-name-title">{{ condo.name }}</h1>
+
 <div *ngIf="!condoSlug">
   <p>Loading...</p>
 </div>
 
 <div *ngIf="condoSlug">
   <h2>Chaves de Acesso</h2>
+  
   <div *ngIf="accessKeys && accessKeys.length > 0; else noKeys">
     <table class="table access-keys-table">
       <thead>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccessKeysService } from './access-keys.service';
+import { CondoService } from '../condo.service';
 
 @Component({
   selector: 'app-access-keys',
@@ -15,14 +16,17 @@ export class AccessKeysComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private accessKeysService: AccessKeysService,
+    private condoService: CondoService
   ) {}
 
   ngOnInit() {
     this.condoSlug = this.route.snapshot.paramMap.get('condoSlug') || '';
     this.loadAccessKeys();
-    // this.condosService.getCondo(this.condoSlug).subscribe(condo => {
-    //   this.condo = condo;
-    // });
+    if (this.condoSlug) {
+      this.condoService.getCondoBySlug(this.condoSlug).subscribe((condo: any) => {
+        this.condo = condo;
+      });
+    }
   }
 
   loadAccessKeys() {

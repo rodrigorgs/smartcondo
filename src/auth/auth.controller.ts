@@ -33,7 +33,7 @@ export class AuthController {
       secure: false,
     });
 
-    res.redirect('/auth/profile');
+    res.redirect('/');
   }
 
   @Get('profile')

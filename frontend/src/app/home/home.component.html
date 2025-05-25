@@ -1,11 +1,16 @@
 <div class="home-container">
-  <h1>SmartCondo</h1>
+  <h1 style="margin-bottom: 0.2em;">SmartCondo</h1>
+  <span style="margin-top: 0;">Seu condomínio inteligente</span>
+  <hr>
   <div class="home-actions">
-    <button (click)="loginWithGoogle()">Acesse com a conta do Google</button>
+    <button (click)="loginWithGoogle()" stlye="background-color: white;">
+      Fazer login com o Google
+    </button>
+    <span>ou</span>
     <form (ngSubmit)="enterAccessKey()" #accessKeyForm="ngForm">
-      <label for="accessKey">ou use uma chave de acesso:</label>
+      <label for="accessKey">Usar uma chave de acesso:</label>
       <input id="accessKey" name="accessKey" [(ngModel)]="accessKey" required />
-      <button type="submit" [disabled]="accessKeyForm.invalid">Entrar</button>
+      <button type="submit" [disabled]="accessKeyForm.invalid">Acessar</button>
     </form>
   </div>
 </div>

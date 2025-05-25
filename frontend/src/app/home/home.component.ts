@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccessKeysService } from '../condos/access-keys/access-keys.service';
 
@@ -7,10 +7,24 @@ import { AccessKeysService } from '../condos/access-keys/access-keys.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   accessKey: string = '';
 
   constructor(private router: Router, private keyService: AccessKeysService) {}
+
+  ngOnInit() {
+    // Check if user is logged in (e.g., by checking for a JWT in localStorage or a cookie)
+    // Adjust this logic to your actual authentication method
+    const token = this.getCookie('access_token');
+    if (token) {
+      this.router.navigate(['/condos']);
+    }
+  }
+
+  getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
 
   loginWithGoogle() {
     window.location.href = '/api/auth/google';

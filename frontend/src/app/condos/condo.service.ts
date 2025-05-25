@@ -29,4 +29,8 @@ export class CondoService {
   removeCondoUser(condoSlug: string, userId: string) {
     return this.http.delete(`/api/condos/${condoSlug}/users/${userId}`);
   }
+
+  addUserToCondo(condoSlug: string, email: string, isManager: boolean) {
+    return this.http.post(`/api/condos/${condoSlug}/users/email/${email}`, { isManager }); // TODO: sanitize email
+  }
 }

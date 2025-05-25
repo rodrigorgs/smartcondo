@@ -104,6 +104,21 @@ export class CondosController {
     return this.condosService.findCondoToUser(+condo.id, +userId);
   }
 
+  @Post(':slug/users/email/:email')
+  @ApiOperation({ summary: 'Add user to condo by email' })
+  async addUserByEmail(
+    @Param('slug') slug: string,
+    @Param('email') email: string,
+    @Body() body: AddUserToCondoDto,
+    @CurrentUser() currentUser: User | null,
+  ) {
+    const { condo, condoToUser } = await this.getEntities(slug, currentUser);
+    if (!condoToUser?.isManager && !currentUser?.isAdmin) {
+      throw new ForbiddenException();
+    }
+    return this.condosService.addUserByEmail(slug, email, body);
+  }
+
   @Post(':slug/users/:userId')
   @ApiOperation({ summary: 'Add user to condo' })
   async addUser(

@@ -10,6 +10,9 @@ export class AccessKeysService {
     return this.http.get<any[]>(`/api/condos/${condoSlug}/access-keys`);
   }
 
+  getAccessKeyInfo(key: string): Observable<any> {
+    return this.http.get<any>(`/api/access-keys/${key}`);
+  }
   createAccessKey(condoSlug: string, data: any): Observable<any> {
     return this.http.post(`/api/condos/${condoSlug}/access-keys`, data);
   }

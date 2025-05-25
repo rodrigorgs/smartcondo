@@ -7,9 +7,10 @@ import { CondoCreateComponent } from './condos/condo-create/condo-create.compone
 import { DeviceAddComponent } from './devices/device-add/device-add.component';
 import { AccessKeysComponent } from './condos/access-keys/access-keys.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/condos', pathMatch: 'full' },
+  { path: '', component: HomeComponent },
   { path: 'condos', component: CondoListComponent },
   { path: 'condos/:condoSlug', component: CondoDetailComponent },
   { path: 'condos/:condoSlug/devices', component: DeviceListComponent },
@@ -19,4 +20,5 @@ export const routes: Routes = [
   { path: 'admin', component: CondoCreateComponent },
   { path: 'condos/:condoSlug/access-keys', component: AccessKeysComponent },
   { path: 'forbidden', component: ForbiddenComponent },
+  { path: 'home', component: HomeComponent },
 ];

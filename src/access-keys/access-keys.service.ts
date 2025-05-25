@@ -46,6 +46,13 @@ export class AccessKeysService {
     return this.accessKeysRepository.findOne({ where: { condo: { slug: condoSlug }, keyString } });
   }
 
+  async findByKey(keyString: string) {
+    return this.accessKeysRepository.findOne({
+      where: { keyString },
+      relations: ['condo'],
+    });
+  }
+
   findAll() {
     return this.accessKeysRepository.find();
   }

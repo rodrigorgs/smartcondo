@@ -1,0 +1,11 @@
+<div class="home-container">
+  <h1>SmartCondo</h1>
+  <div class="home-actions">
+    <button (click)="loginWithGoogle()">Acesse com a conta do Google</button>
+    <form (ngSubmit)="enterAccessKey()" #accessKeyForm="ngForm">
+      <label for="accessKey">ou use uma chave de acesso:</label>
+      <input id="accessKey" name="accessKey" [(ngModel)]="accessKey" required />
+      <button type="submit" [disabled]="accessKeyForm.invalid">Entrar</button>
+    </form>
+  </div>
+</div>

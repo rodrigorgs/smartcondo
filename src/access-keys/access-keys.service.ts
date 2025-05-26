@@ -32,7 +32,13 @@ export class AccessKeysService {
     }
 
     const keyString = Math.random().toString(36).substring(2, 15);
-    const accessKey = this.accessKeysRepository.create({ ...createAccessKeyDto, keyString, condo: { id: condo.id } });
+    const objToCreate = {
+      ...createAccessKeyDto,
+      keyString,
+      user: { id: createAccessKeyDto.userId },
+      condo: { id: condo.id },
+    };
+    const accessKey = this.accessKeysRepository.create(objToCreate);
     return this.accessKeysRepository.save(accessKey);
   }
 
@@ -53,7 +59,10 @@ export class AccessKeysService {
   }
 
   findByCondoSlugAndKey(condoSlug: string, keyString: string) {
-    return this.accessKeysRepository.findOne({ where: { condo: { slug: condoSlug }, keyString } });
+    return this.accessKeysRepository.findOne({
+      where: { condo: { slug: condoSlug }, keyString },
+      relations: ['user'],
+    });
   }
 
   async findByKey(keyString: string) {

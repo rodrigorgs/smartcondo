@@ -39,6 +39,9 @@ export class HomeComponent implements OnInit {
       next: (info: any) => {  
         this.router.navigate(['condos', info.condoSlug], { queryParams: { key: this.accessKey } });
       },
+      error: (err) => {
+        alert('Chave de acesso inválida ou expirada.');
+      }
     });
     // Redirect to a page that uses the access key, e.g., condos list with key param
   }

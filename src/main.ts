@@ -13,7 +13,7 @@ async function bootstrap() {
 
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
-  app.setGlobalPrefix('api', { exclude: ['@mar-azul/portao'] });
+  app.setGlobalPrefix('api');
   app.use(cookieParser());
   app.useGlobalInterceptors(app.get(CurrentUserInterceptor));
 

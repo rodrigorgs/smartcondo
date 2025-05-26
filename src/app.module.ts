@@ -4,7 +4,6 @@ import { join } from 'path';
 
 import { ConfigModule } from '@nestjs/config';
 import { EwelinkService } from './ewelink/ewelink.service';
-import { SwitchController } from './switch/switch.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
@@ -43,7 +42,7 @@ const databaseUrl =
     EwelinkModule,
     CommonModule,
   ],
-  controllers: [SwitchController],
+  controllers: [],
   providers: [EwelinkService],
 })
 export class AppModule {}

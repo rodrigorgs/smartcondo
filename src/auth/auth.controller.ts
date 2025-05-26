@@ -10,8 +10,10 @@ import { GoogleOauthGuard } from './guard/google-oauth.guard';
 import { Response } from 'express';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { Public } from './public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Authentication')
 export class AuthController {
   constructor(private authService: AuthService) {}
 

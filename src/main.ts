@@ -25,7 +25,11 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  SwaggerModule.setup('api/docs', app, document, {
+    swaggerOptions: {
+      tryItOutEnabled: true,
+    },
+  });
 
   await app.listen(port);
   console.log(`App started. Listening on port ${port}`);

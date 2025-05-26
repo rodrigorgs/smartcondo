@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { DevicesService } from './devices.service';
 import { DevicesController } from './devices.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -13,10 +13,11 @@ import { DeviceActivityService } from './device-activity.service';
 @Module({
   controllers: [DevicesController],
   providers: [DeviceActivityService, DevicesService],
+  exports: [DevicesService, DeviceActivityService],
   imports: [TypeOrmModule.forFeature([Device, DeviceActivity]),
     CondosModule,
     UsersModule,
-    AccessKeysModule,
+    forwardRef(() => AccessKeysModule),
     EwelinkModule],
 })
 export class DevicesModule {}

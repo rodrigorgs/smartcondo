@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, ForbiddenException, UseGuards } from '@nestjs/common';
+import { DeviceActivityService } from 'devices/device-activity.service';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, ForbiddenException, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { AccessKeysService } from './access-keys.service';
 import { CreateAccessKeyDto } from './dto/create-access-key.dto';
 import { CondosService } from 'condos/condos.service';
@@ -6,6 +7,8 @@ import { UsersService } from 'users/users.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public } from 'auth/public.decorator';
 import { OptionalJwtAuthGuard } from 'auth/guard/optional-jwt.guard';
+import { CurrentUser } from 'common/current-user.decorator';
+import { User } from 'users/entities/user.entity';
 
 @Controller()
 @ApiTags('Access Keys')
@@ -14,6 +17,7 @@ export class AccessKeysController {
     private readonly accessKeysService: AccessKeysService,
     private readonly condosService: CondosService,
     private readonly usersService: UsersService,
+    private readonly deviceActivityService: DeviceActivityService,
   ) {}
 
   @Get('condos/:condoSlug/access-keys')
@@ -83,6 +87,29 @@ export class AccessKeysController {
     const condoSlug = accessKey.condo.slug;
     return { condoSlug, path };
   }
+
+  @Get('access-keys/:key/logs')
+  @UseGuards(OptionalJwtAuthGuard)
+  @Public()
+  @ApiOperation({ summary: 'Get logs for access key' })
+  async getAccessKeyLogs(
+    @Param('key') key: string,
+    @CurrentUser() user: User | null,
+  ) {
+    const accessKey = await this.accessKeysService.findByKey(key);
+    if (!accessKey || !accessKey.condo) {
+      throw new ForbiddenException('Access key not found');
+    }
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    if (!user.isAdmin && accessKey?.user.id !== user.id) {
+      throw new ForbiddenException();
+    }
+
+    return this.deviceActivityService.findByAccessKey(key);
+  }
+
   // TODO
   // @Get(':id')
   // findOne(@Param('id') id: string) {

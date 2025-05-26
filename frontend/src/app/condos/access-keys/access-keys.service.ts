@@ -20,4 +20,8 @@ export class AccessKeysService {
   deleteAccessKey(condoSlug: string, key: string) {
     return this.http.delete(`/api/condos/${condoSlug}/access-keys/${key}`);
   }
+
+  getAccessKeyLogs(key: string): Observable<any[]> {
+    return this.http.get<any[]>(`/api/access-keys/${key}/logs`);
+  }
 }

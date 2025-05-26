@@ -26,8 +26,8 @@
         <td>{{ key.validTo | date:'dd/MM/yyyy HH:mm' }}</td>
         <td>
           <a [routerLink]="['/condos', condoSlug]" [queryParams]="{key: key.keyString}" class="btn btn-primary">Link</a>
-          &nbsp;
-          <button class="btn btn-danger" (click)="confirmDeleteKey(key.keyString)" type="button">Remover</button>
+          &nbsp; <a [routerLink]="['/access-keys', key.keyString, 'logs']"  class="btn btn-primary">Logs</a>
+          &nbsp; <button class="btn btn-danger" (click)="confirmDeleteKey(key.keyString)" type="button">Remover</button>
         </td>
       </tr>
       </tbody>

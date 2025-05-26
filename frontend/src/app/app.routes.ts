@@ -9,9 +9,11 @@ import { AccessKeysComponent } from './condos/access-keys/access-keys.component'
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { CondoUsersComponent } from './condos/condo-users/condo-users.component';
+import { AccessKeyLogsComponent } from './condos/access-keys/access-key-logs/access-key-logs.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'access-keys/:key/logs', component: AccessKeyLogsComponent },
   { path: 'condos', component: CondoListComponent },
   { path: 'condos/:condoSlug', component: CondoDetailComponent },
   { path: 'condos/:condoSlug/users', component: CondoUsersComponent },

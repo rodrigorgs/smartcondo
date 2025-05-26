@@ -1,0 +1,24 @@
+<h2>Registro de Acesso</h2>
+<p>
+  Chave: <strong>{{ keyString }}</strong>
+</p>
+
+<div *ngIf="entries && entries.length > 0; else noKeys">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Hora</th>
+      <th>Sucesso?</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let entry of entries">
+      <td>{{ entry.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+      <td>{{ entry.successful ? 'Sim' : 'Não' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noKeys>
+  <p>Nenhum registro de uso encontrado para a chave de acesso.</p>
+</ng-template>

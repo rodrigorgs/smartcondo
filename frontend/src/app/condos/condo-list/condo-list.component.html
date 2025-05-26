@@ -6,7 +6,6 @@
       <li *ngFor="let condo of condos" class="list-item">
         <a [routerLink]="['/condos', condo.slug]" class="condo-link">
           <span class="condo-name">{{ condo.name }}</span>
-          <span class="condo-slug">({{ condo.slug }})</span>
         </a>
       </li>
     </ul>

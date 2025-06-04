@@ -23,7 +23,9 @@ export class CondoListComponent {
     },
     error: (err) => {
       if (err.status === 403 || err.status === 401) {
-        this.router.navigate(['/forbidden']);
+        // logout user if unauthorized
+        document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        this.router.navigate(['/']);
       }
     }
   });
